@@ -1,5 +1,21 @@
-body {
+* {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  font-size: 0.9rem
+}
+img{
+  vertical-align:top
+}
+#leading-page{
+  
+}
+
+.forget-link{
+  /* font-size: 0.8rem; */
+  width: 100%;
+  text-align: center;
+}
+.forget-link a{
+  font-size: 0.8rem;
 }

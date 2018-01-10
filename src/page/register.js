@@ -1,13 +1,100 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import {
+    WingBlank,
+    WhiteSpace,
+    List,
+    InputItem,
+    Button,
+    Toast
+} from 'antd-mobile';
+
+import Logo from '../component/logo/logo';
+import { register } from '../action/user.action';
+
+const actionCreator = { 
+    register 
+};
 
 class Register extends Component {
+     state = {
+        hasError: false,
+        user_name: "",
+        user_pwd: "",
+        user_repwd: ""
+    }
+    onErrorClick = () => {
+        if (this.state.hasError) {
+            Toast.info('请输入正确的邮箱地址！');
+        }
+    }
+    onChange = (key, value) => {
+        if(key==='user_name'){
+//  邮箱验证正则 
+            const reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/; 
+            if ( !reg.test(value) ) {    
+                 this.setState({ hasError: true,}); 
+            } else {  
+                this.setState({  hasError: false, }); 
+            }
+        }
+        this.setState({
+            [key] : value
+        })
+    }
     render() {
         return (
-            <div>
-                Register
-            </div>
+           <WingBlank>
+                <Logo/>
+                <div>
+                    <List>
+                        <InputItem
+                            type="text"
+                            placeholder="input your Email"
+                            error={this.state.hasError}
+                            onErrorClick={this.onErrorClick}
+                            onChange={(v) => this.onChange("user_name" ,v)}
+                            value={this.state.user_name}>邮箱</InputItem>
+                    </List>
+                    <WhiteSpace size="lg"/>
+                    <List>
+                        <InputItem
+                            type="text"
+                            placeholder="输入你的密码"
+                            onChange={(v) => this.onChange("user_pwd" ,v)}
+                            value={this.state.user_pwd}>密码</InputItem>
+                    </List>
+                    <WhiteSpace size="lg"/>
+                    <List>
+                        <InputItem
+                            type="text"
+                            placeholder="确认密码"
+                            onChange={(v) => this.onChange("user_repwd" ,v)}
+                            value={this.state.user_repwd}>确认密码</InputItem>
+                    </List>
+                    <WhiteSpace size="lg"/>                    
+                    <List>
+                        <Button 
+                            type="primary"
+                            onClick={this.props.register}
+                        >注册</Button>
+                    </List>
+                    <WhiteSpace size="lg"/>
+                    <div className="forget-link">
+                        <a href="/forget">已有账号，去登陆</a>
+                    </div>
+
+                </div>
+            </WingBlank>
         )
     }
 }
 
-export default Register;
+function mapStateToProps(state){
+    return {
+        ...state.user 
+    }
+}
+
+
+export default connect(mapStateToProps,actionCreator)(Register)
