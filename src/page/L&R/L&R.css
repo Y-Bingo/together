@@ -1,0 +1,19 @@
+/* tab的样式 */
+
+.am-tabs-default-bar-tab {
+    font-size: 0.8rem;
+}
+
+.input-border {
+    /* width: 60%; */
+    border: 1px solid #eee;
+    border-radius: 10px;
+    /* padding: none; */
+}
+.forget-link{
+    color: darkcyan;
+}
+
+img{
+    width: 100%;
+}

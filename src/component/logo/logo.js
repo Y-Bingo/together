@@ -3,12 +3,12 @@ import React from 'react';
 const style = {
     logo : {
         width: "100%",
-        padding: "3rem 0"
+        // padding: "3rem 0"
     },
     container : {
-        width: "8rem",
+        width: "100%",
         height: "8rem",
-        backgroundColor: 'red',
+        backgroundColor: 'skyblue',
         margin : "auto"
     }
 }

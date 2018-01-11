@@ -9,8 +9,7 @@ import {
 
 } from 'antd-mobile';
 
-import Logo from '../component/logo/logo';
-import {login} from "../action/user.action";
+import {login} from "../../action/user.action";
 
 const ActionCreator = {
     login
@@ -27,7 +26,6 @@ class Login extends Component {
     }
 
     onChange = (key, value) => {
-
         console.log(key,value)
         this.setState({
             [key] : value
@@ -35,22 +33,24 @@ class Login extends Component {
     }
     render() {
         return (
-            <WingBlank>
-                <Logo/>
+            // <WingBlank>
                 <div>
+                    <WhiteSpace />
                     <List>
                         <InputItem
+                            className="input-border"
                             type="text"
                             placeholder="input your Email"
                             // error={this.state.hasError}
                             // onErrorClick={this.onErrorClick}
                             onChange={(v) => this.onChange("user_name" ,v)}
-                            value={this.state.user_name}>登录邮箱</InputItem>
+                            value={this.state.user_name}>邮箱</InputItem>
                     </List>
                     <WhiteSpace size="lg"/>
                     <List>
                         <InputItem
                             type="text"
+                            className="input-border"
                             placeholder="input your pwd"
                             onChange={(v) => this.onChange("user_pwd" ,v)}
                             value={this.state.user_pwd}>密码</InputItem>
@@ -63,12 +63,15 @@ class Login extends Component {
                         >登录</Button>
                     </List>
                     <WhiteSpace size="lg"/>
-                    <div className="forget-link">
-                        <a href="/forget">忘记密码了</a>
+                    <div className="forget-link" 
+                         onClick={() => {this.props.history.push('/forget')}}>
+                        <span>忘记密码了</span>
                     </div>
+                    <WhiteSpace />
+                    
 
                 </div>
-            </WingBlank>
+            // </WingBlank>
         )
     }
 }

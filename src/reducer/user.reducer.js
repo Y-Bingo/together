@@ -1,6 +1,6 @@
 import {
     LOGIN,
-    AUTH_SURE,
+    // AUTH_SURE,
     REGISTER
 } from '../action/user.action';
 

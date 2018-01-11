@@ -9,8 +9,7 @@ import {
     Toast
 } from 'antd-mobile';
 
-import Logo from '../component/logo/logo';
-import { register } from '../action/user.action';
+import { register } from '../../action/user.action';
 
 const actionCreator = { 
     register 
@@ -44,11 +43,12 @@ class Register extends Component {
     }
     render() {
         return (
-           <WingBlank>
-                <Logo/>
+        //    <WingBlank>
                 <div>
+                    <WhiteSpace />                    
                     <List>
                         <InputItem
+                            className="input-border"
                             type="text"
                             placeholder="input your Email"
                             error={this.state.hasError}
@@ -59,6 +59,7 @@ class Register extends Component {
                     <WhiteSpace size="lg"/>
                     <List>
                         <InputItem
+                            className="input-border"
                             type="text"
                             placeholder="输入你的密码"
                             onChange={(v) => this.onChange("user_pwd" ,v)}
@@ -67,6 +68,7 @@ class Register extends Component {
                     <WhiteSpace size="lg"/>
                     <List>
                         <InputItem
+                            className="input-border"
                             type="text"
                             placeholder="确认密码"
                             onChange={(v) => this.onChange("user_repwd" ,v)}
@@ -79,13 +81,10 @@ class Register extends Component {
                             onClick={this.props.register}
                         >注册</Button>
                     </List>
-                    <WhiteSpace size="lg"/>
-                    <div className="forget-link">
-                        <a href="/forget">已有账号，去登陆</a>
-                    </div>
-
+                    {/* <WhiteSpace size="lg"/> */}
+                    <WhiteSpace />  
                 </div>
-            </WingBlank>
+            // </WingBlank>
         )
     }
 }

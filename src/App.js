@@ -5,8 +5,8 @@ import { Route, Switch, BrowserRouter} from 'react-router-dom';
 import store from './store';
 
 import LeadingPage from './page/lead_page/lead';
-import Login from './page/login';
-import Reg from './page/register';
+import LogOrReg from './page/L&R';
+import Forget from './page/forget';
 import TopIndex from './page/topic.index';
 import UserIndex from './page/user.index';
 
@@ -20,8 +20,8 @@ class App extends Component {
             <div>
               <Switch>
                 <Route path="/" exact component={LeadingPage} />
-                <Route path="/login" component={Login} />
-                <Route path="/reg" component={Reg} />
+                <Route path="/forget" component={Forget} />s
+                <Route paht="/log" component={LogOrReg} />
                 <Route path="/topic" component={TopIndex} />
                 <Route paht="/user" component={UserIndex} />
               </Switch>
