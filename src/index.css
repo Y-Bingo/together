@@ -19,3 +19,8 @@ img{
 .forget-link a{
   font-size: 0.8rem;
 }
+.am-tab-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}

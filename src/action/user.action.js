@@ -1,7 +1,9 @@
+
+import axios from 'axios';
+
 export  const LOGIN = "LOGIN";
 // export  const AUTH_SURE = "AUTH_SURE";
 export const REGISTER = "REGISTER";
-
 
 export function login(){
     return {

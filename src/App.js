@@ -21,8 +21,8 @@ class App extends Component {
               <Switch>
                 <Route path="/" exact component={LeadingPage} />
                 <Route path="/forget" component={Forget} />s
+                <Route path="/index" component={TopIndex} />
                 <Route paht="/log" component={LogOrReg} />
-                <Route path="/topic" component={TopIndex} />
                 <Route paht="/user" component={UserIndex} />
               </Switch>
             </div>
