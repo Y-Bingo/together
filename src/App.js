@@ -9,7 +9,7 @@ import LogOrReg from './page/L&R';
 import Forget from './page/forget';
 import TopIndex from './page/topic.index';
 import UserIndex from './page/user.index';
-
+import Search from './page/search';
 
 class App extends Component {
   render() {
@@ -20,7 +20,8 @@ class App extends Component {
             <div>
               <Switch>
                 <Route path="/" exact component={LeadingPage} />
-                <Route path="/forget" component={Forget} />s
+                <Route path="/forget" component={Forget} />
+                <Route path="/search" component={Search} />
                 <Route path="/index" component={TopIndex} />
                 <Route paht="/log" component={LogOrReg} />
                 <Route paht="/user" component={UserIndex} />

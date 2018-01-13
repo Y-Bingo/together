@@ -24,3 +24,7 @@ img{
   bottom: 0;
   width: 100%;
 }
+.search-bar{
+  display: inline-block;
+  width: 90%;
+}

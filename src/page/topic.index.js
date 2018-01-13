@@ -50,7 +50,7 @@ class TopIndex extends Component {
         ]
         return (
             <div>
-                 <SearchBar placeholder="Search" maxLength={8} />
+                 {/* <SearchBar  /> */}
                 <WhiteSpace />
                 <TabBar unselectedTintColor="#949494" tintColor="#33A3F4" barTintColor="white">
                     {tabs.map((item, v) => (
