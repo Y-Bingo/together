@@ -9,34 +9,46 @@ import {
     WingBlank,
     List
 } from 'antd-mobile';
+// 引入样式
 import './search.css';
 
-const PlaceHolder = ({ className = '', text ="Block"}) => (
-    <div className={`${className} placeholder`} data-search={text} >{text}</div>
-);
+import {search} from '../../action/search.action';
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {search};
 
 class Search extends Component{
     constructor(){
         super();
         this.state = {
-            search : ""
+            key : ""
         }
     }
     handleClick = (e) => {
         this.setState({ 
-            search: e.target.getAttribute('data-search') ? e.target.getAttribute('data-search') : "all"
+            key: e.target.getAttribute('data-search-key') ? e.target.getAttribute('data-search-key') : "all"
         })
+        //后面需要直接执行搜索
+        //    提交搜索action
+        // this.search();
+        // 这里有个小bug，点击提交没有立即渲染页面
     }
-    handleBlur = (value) => {
-        console.log(value);
-        this.setState({
-            search: value
-        })
+    onChange = (key)=> {
+        this.setState({key})
     }
-
+    onBlur = () => {
+       console.log("失去焦点");
+    }
+    onSubmit = ()=>{
+         //    提交搜索action
+       this.search();
+    }
+    search = ()=>{
+        this.state.key ? this.props.search(this.state.key) : console.log("不去搜索");
+    }
     render(){
+        const PlaceHolder = ({ className = '', text = "Block" }) => (
+            <div className={`${className} placeholder`} data-search-key={text} >{text}</div>
+        );
         return (
             <div>
                 <NavBar
@@ -45,13 +57,14 @@ class Search extends Component{
                     onLeftClick={() => this.props.history.goBack()}
                 >搜索</NavBar>
                 <SearchBar 
+                    value = {this.state.key}
                     placeholder="搜索你感兴趣" 
                     maxLength={10} 
-                    onBlur={(value) => {this.handleBlur(value)}}
+                    onBlur={this.onBlur}
+                    onChange={this.onChange}
+                    onSubmit={this.onSubmit}
                 />
-
                 <WhiteSpace size="lg" />
-
                 <div className="content">
                     <WingBlank>
                         <List renderHeader={()=>"试试搜索这些"} >
@@ -65,9 +78,7 @@ class Search extends Component{
                 </div>
                
             </div>
-        )
-        
-        
+        )    
     }
 }
 

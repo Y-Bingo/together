@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
 import {TabBar ,WhiteSpace, SearchBar} from 'antd-mobile';
-function Square() {
-    return (
-        <div>square</div>
-    )
-}
+import Square from "./topic.square";
 function Concern() {
     return (
         <div>concern</div>
@@ -24,7 +20,7 @@ class TopIndex extends Component {
         };
     }
      renderContent(TabItem){
-        return <TabItem />;
+         return <TabItem history={this.props.history}/>;
     }
     render() {
         const tabs = [
@@ -55,6 +51,7 @@ class TopIndex extends Component {
                 <TabBar unselectedTintColor="#949494" tintColor="#33A3F4" barTintColor="white">
                     {tabs.map((item, v) => (
                         <TabBar.Item
+
                             title={item.title}
                             key={item.title}
                             icon={< div style = {{ width: '22px', height: '22px', background: `url(${item.icon}) center center / 21px 21px no-repeat` }}/>}
@@ -63,7 +60,7 @@ class TopIndex extends Component {
                             badge={item.badge}
                             onPress={() => {
                             this.setState({selectedTab: item.title});
-                        }}
+                            }}
                             data-seed="logId">
                             {/* {item.title} */}
                             {this.renderContent(item.component)}

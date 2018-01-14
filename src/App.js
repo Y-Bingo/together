@@ -9,7 +9,7 @@ import LogOrReg from './page/L&R';
 import Forget from './page/forget';
 import TopIndex from './page/topic.index';
 import UserIndex from './page/user.index';
-import Search from './page/search';
+import Search from './page/search_page/search';
 
 class App extends Component {
   render() {
