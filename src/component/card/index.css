@@ -1,0 +1,84 @@
+.header-photo{
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+    border-radius: 50%;
+}
+.header-photo img{
+    vertical-align: middle;
+    width: 100%;
+}
+/* 关注按钮 */
+.btn-add {
+    text-align: right;
+}
+.btn-add a{
+    outline: 0 none;
+    text-decoration: none;
+    -webkit-appearance: none;
+    color: #108ee9;
+    border:1px solid #dfdfdf;
+    border-radius: 5px;
+    padding: 0 8px;
+    line-height: 25px;
+    font-size: 14px;
+    display: inline-block;
+    background-color: transparent;
+    
+}
+.btn-add a:hover{
+    background-color: #d5eaf8;
+}
+.btn-add-img{
+    display: inline-block;
+    width:20px;
+    height: 20px;
+    margin-right: 5px;
+    line-height: 20px;
+}
+.btn-add-img img {
+    vertical-align: top;
+    height: 100%;
+}
+/* 中央图片 */
+.card-img {
+    width: 100%;
+    height: 140px;
+    background-color: skyblue;
+}
+
+.card-body-content{
+    width: 100%;
+}
+.card-body-content h1{
+    font-size: 20px;
+    margin: 5px 0;
+}
+.card-body-content p{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.card-footer{
+    padding: 2px;
+    line-height: 17px;
+    vertical-align: middle;
+}
+.card-footer-btn{
+    display: inline-block;
+    margin-right:15px;
+}
+.card-footer-icon , .card-footer-btn span{
+    display: inline-block;
+    margin-right:5px; 
+    fill: currentColor;
+    overflow: hidden;
+    background-size: cover;
+    width: 17px;
+    height: 17px;
+}
+.card-footer-icon img{
+    vertical-align: top;
+    width: 100%;
+}
+

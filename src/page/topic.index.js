@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {TabBar ,WhiteSpace, SearchBar} from 'antd-mobile';
+import {TabBar ,WhiteSpace} from 'antd-mobile';
 import Square from "./topic.square";
 function Concern() {
     return (

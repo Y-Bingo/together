@@ -10,7 +10,8 @@ import Forget from './page/forget';
 import TopIndex from './page/topic.index';
 import UserIndex from './page/user.index';
 import Search from './page/search_page/search';
-
+//test
+import Card from './component/card';
 class App extends Component {
   render() {
     return (
@@ -23,8 +24,9 @@ class App extends Component {
                 <Route path="/forget" component={Forget} />
                 <Route path="/search" component={Search} />
                 <Route path="/index" component={TopIndex} />
-                <Route paht="/log" component={LogOrReg} />
-                <Route paht="/user" component={UserIndex} />
+                <Route path="/log" component={LogOrReg} />
+                <Route path="/user" component={UserIndex} />
+                <Route path="/test" component={Card} />
               </Switch>
             </div>
           </BrowserRouter>

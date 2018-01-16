@@ -1,15 +1,20 @@
 import React,{Component} from 'react';
+import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import{
     NavBar,
-    Icon
+    Icon,
 } from "antd-mobile"
-
+import ListView from '../component/listView';
 
 
 class Square extends Component{
+    constructor(props) {
+        super(props);
+    }
+  
     render = ()=>{
-
+      
         return(
             <div>
                 <NavBar
@@ -20,6 +25,7 @@ class Square extends Component{
                         <Icon key="1" type="ellipsis" />,
                     ]}
                 >搜索你想看的</NavBar>
+               <ListView />
             </div>
         )
     }
