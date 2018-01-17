@@ -1,17 +1,13 @@
-import {
-    LOGIN,
-    // AUTH_SURE,
-    REGISTER
-} from '../action/user.action';
+import * as ActionTypes from '../action/user.action';
 
 const initState = {};
 
 export default function user(state = initState, action) {
     const {type , ...orther} = action;
     switch (type) {
-        case LOGIN:
+        case ActionTypes.LOGIN:
             return {...state,...orther} ;
-        case REGISTER:
+        case ActionTypes.REGISTER:
             return {...state,...orther} ;
         default:
             return state;

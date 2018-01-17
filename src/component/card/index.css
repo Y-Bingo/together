@@ -13,28 +13,43 @@
     text-align: right;
 }
 .btn-add a{
-    outline: 0 none;
-    text-decoration: none;
-    -webkit-appearance: none;
-    color: #108ee9;
-    border:1px solid #dfdfdf;
-    border-radius: 5px;
-    padding: 0 8px;
-    line-height: 25px;
-    font-size: 14px;
-    display: inline-block;
-    background-color: transparent;
-    
+    line-height:24px;
+    height:24px;
+    width:60px;
+    color:#ab9e9e;
+    background-color:#ffffff;
+    font-size:14px;
+    font-weight:normal;
+    font-family:SimSun;
+    border:1px solid #a3a3a3;
+    -webkit-border-top-left-radius:20px;
+    -moz-border-radius-topleft:20px;
+    border-top-left-radius:20px;
+    -webkit-border-top-right-radius:20px;
+    -moz-border-radius-topright:20px;
+    border-top-right-radius:20px;
+    -webkit-border-bottom-left-radius:20px;
+    -moz-border-radius-bottomleft:20px;
+    border-bottom-left-radius:20px;
+    -webkit-border-bottom-right-radius:20px;
+    -moz-border-radius-bottomright:20px;
+    border-bottom-right-radius:20px;
+    -moz-box-shadow:0px 0px 0px 0px #ffffff;
+    -webkit-box-shadow:0px 0px 0px 0px #ffffff;
+    box-shadow:0px 0px 0px 0px #ffffff;
+    text-align:center;
+    display:inline-block;
+    text-decoration:none;
 }
 .btn-add a:hover{
-    background-color: #d5eaf8;
+    background-color:#eeeeee;
 }
 .btn-add-img{
     display: inline-block;
-    width:20px;
-    height: 20px;
+    width: 10px;
+    height: 10px;
     margin-right: 5px;
-    line-height: 20px;
+    line-height: 10px;
 }
 .btn-add-img img {
     vertical-align: top;

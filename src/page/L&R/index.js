@@ -59,7 +59,7 @@ const LogOrReg = (props) => (
                 {
                     LM.map((item,index) => (
                         <Flex.Item key={item.title}>
-                            <img  src={require(`./img/${item.icon}.png`)}/>
+                            <img  src={require(`./img/${item.icon}.png`)} alt={item.title}/>
                             <span>{item.title}</span>
                         </Flex.Item>
                     ))

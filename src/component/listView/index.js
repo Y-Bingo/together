@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import {
     PullToRefresh,
     ListView,
-    Button
+    Button,
+    WhiteSpace
 } from "antd-mobile"
-
+import DataCard from '../card';
 const data = [
     {
         img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
@@ -44,10 +45,10 @@ class List extends Component {
 
         this.state = {
             dataSource,
-            refreshing: true,
             isLoading: true,
             height: document.documentElement.clientHeight,
-            useBodyScroll: false,
+            useBodyScroll: true,
+            refreshing: false,
         };
     }
     componentDidUpdate() {
@@ -65,7 +66,6 @@ class List extends Component {
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(genData()),
                 height: hei,
-                refreshing: false,
                 isLoading: false,
             });
         }, 1500);
@@ -120,35 +120,13 @@ class List extends Component {
             }
             const obj = data[index--];
             return (
-                <div key={rowID}
-                    style={{
-                        padding: '0 15px',
-                        backgroundColor: 'white',
-                    }}
-                >
-                    <div style={{ height: '50px', lineHeight: '50px', color: '#888', fontSize: '18px', borderBottom: '1px solid #ddd' }}>
-                        {obj.title}
-                    </div>
-                    <div style={{ display: '-webkit-box', display: 'flex', padding: '15px' }}>
-                        <img style={{ height: '63px', width: '63px', marginRight: '15px' }} src={obj.img} alt="" />
-                        <div style={{ display: 'inline-block' }}>
-                            <div style={{ marginBottom: '8px', color: '#000', fontSize: '16px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '250px' }}>{obj.des}-{rowData}</div>
-                            <div style={{ fontSize: '16px' }}><span style={{ fontSize: '30px', color: '#FF6E27' }}>{rowID}</span> 元/任务</div>
-                        </div>
-                    </div>
+                <div key={rowID} style={{width:"100%"}}>
+                    <DataCard />
                 </div>
             );
         };
         return (
-            <div>
-
-                    <Button
-                        style={{ margin: '30px 15px' }}
-                        inline
-                        onClick={() => this.setState({ useBodyScroll: !this.state.useBodyScroll })}
-                    >
-                        {this.state.useBodyScroll ? 'useBodyScroll' : 'partial scroll'}
-                    </Button>
+            <div style={{marginTop:"45px"}}>
                     <ListView
                         key={this.state.useBodyScroll ? '0' : '1'}
                         ref={el => this.lv = el}
@@ -168,6 +146,7 @@ class List extends Component {
                         pullToRefresh={<PullToRefresh
                             refreshing={this.state.refreshing}
                             onRefresh={this.onRefresh}
+                            distanceToRefresh={50}
                         />}
                         onEndReached={this.onEndReached}
                         // 每次事件循环渲染的行数

@@ -1,112 +1,71 @@
 import React ,{Component} from 'react';
-import {Card,Grid,Button,Icon} from 'antd-mobile';
-
+import {connect} from 'react-redux';
+import {Card} from 'antd-mobile';
+// 主题actions
+import {good,collect,join} from '../../action/topic.action';
+// 评论actions
+// 引入样式
 import './index.css';
-
-const data = Array.from(new Array(9)).map((_val, i) => ({
-    icon: 'https://gw.alipayobjects.com/zos/rmsportal/nywPmnTAvTmLusPxHPSu.png',
-    text: `name${i}`,
-}));
-
-const data1 = Array.from(new Array(9)).map(() => ({
-    icon: 'https://gw.alipayobjects.com/zos/rmsportal/WXoqXTHrSnRcUwEaQgXJ.png',
-}));
-
 //footer
-const Footer = (props) => {
-    const {good,collect,comment} = props;
-    return (
-        <div className="card-footer">
-            <div className="card-footer-btn" onClick={collect}>
-                <div className="card-footer-icon">
-                    <img src={require("./img/collection.png")} atl="collection" />
-                </div>
-            </div>
-            <div className="card-footer-btn" onClick={good}>
-                <div className="card-footer-icon">
-                    <img src={require("./img/good.png")} atl="good" />
-                </div>
-                <span>55</span>
-            </div>
-            <div className="card-footer-btn" onClick={comment}>
-                <div className="card-footer-icon">
-                    <img src={require("./img/comment.png")} atl="comment" />
-                </div>
-                <span>55</span>
-                
-            </div>
-            <div className="card-footer-btn">
-                <div className="card-footer-icon">
-                    <img src={require("./img/menber.png")} atl="menber" />
-                </div>
-                <span>55</span>
-            </div>
-            
-            
-            
-            
-        </div>
-    )
-};
-//header
-const Header = () => {};
+import Footer from './card_footer';
 //thumb
-const Thumb = () => {
-    return (
-        <div className="header-photo">
-            <img src={require('./img/header.png')} alt="header"/>
-        </div>
-    )
-}
+import Thumb from './card_header_thumb';
 //header-extra
-const Extra = (handleClick) => {
-    const click = handleClick.onClick;
-    return (
-        <div className="btn-add" onClick={click}>
-            <a>
-                <div className="btn-add-img">
-                    <img src={require("./img/add.png")} />
-                </div>
-                <span>关注</span>
-            </a>
-        </div>
-    )
-}
-const DataCard = () => {
-    return (
-        <div>
-            <Card>
-                <Card.Header 
-                    title = {"userName"}
-                    thumb =  {<Thumb />}
-                    extra={<Extra onClick={()=>{console.log("extra onClick")}}/> }
-                />
-                <Card.Body>
-                    <div className="card-img"></div>
-                    <div className="card-body-content">
-                        <h1>这是文章标题</h1>
-                        <p>这是文字秒速。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。</p>
-                    </div>
-                </Card.Body>
-                <Card.Footer 
-                    content={<Footer good={good} collect={collect} comment={comment}/>}
-                    // extra={'this is footer extra'}
-                />
-            </Card>
-        </div>
-    )
-}
+import Extra from './card_header_extra';
+
+class DataCard extends Component{
+    state = {
+        ...this.props.topic_data[0]
+    }
 // 点击事件good,collect,comment
-const good = (e) =>{
-    // let isGood =  false;
-    const isGood = e.target.getAttribute("src");
-    console.log(isGood);
-    // e.target.setAttribute("src",require('./img/good-active.png'));
-}
-const collect =()=>{
+    good = (e) => {
+        console.log("good");
+        this.props.good(this.state.is_good);
+        this.setState({
+            is_good : !this.state.is_good
+        })
+    }
+    collect = () => {
+        console.log("collect");
+        this.props.collect(this.state.is_collect);
+        this.setState({
+            is_collect: !this.state.is_collect
+        })
+    } 
+    comment = () => {
+        console.log("comment");
+    }
+   render = ()=>{
 
-} 
-const comment = () => {
-
+        return (
+            <div>
+                <Card>
+                    <Card.Header
+                        title={"userName"}
+                        thumb={<Thumb />}
+                        extra={<Extra handleClick={() => { console.log("extra onClick") }} />}
+                    />
+                    <Card.Body>
+                        <div className="card-img"></div>
+                        <div className="card-body-content">
+                            <h1>这是文章标题</h1>
+                            <p>这是文字秒速。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。</p>
+                        </div>
+                    </Card.Body>
+                    <Card.Footer
+                        content={<Footer good={this.good} collect={this.collect} comment={this.comment} {...this.state} />}
+                    />
+                </Card>
+            </div>
+        )
+   }
 }
-export default DataCard;
+const mapStateToProps = (state) => {
+    return {
+        ...state.topic
+    }
+}
+const mapDispatchToProps = { good, collect, join } ;
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(DataCard)

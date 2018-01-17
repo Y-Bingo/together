@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import{
     NavBar,
@@ -12,9 +12,7 @@ class Square extends Component{
     constructor(props) {
         super(props);
     }
-  
-    render = ()=>{
-      
+    render = ()=>{ 
         return(
             <div>
                 <NavBar
