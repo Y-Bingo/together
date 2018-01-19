@@ -15,7 +15,7 @@ import Extra from './card_header_extra';
 
 class DataCard extends Component{
     state = {
-        ...this.props.topic_data[0]
+        ...this.props.card_data
     }
 // 点击事件good,collect,comment
     good = (e) => {
@@ -36,7 +36,6 @@ class DataCard extends Component{
         console.log("comment");
     }
    render = ()=>{
-
         return (
             <div>
                 <Card>
@@ -60,12 +59,12 @@ class DataCard extends Component{
         )
    }
 }
-const mapStateToProps = (state) => {
-    return {
-        ...state.topic
-    }
-}
+// const mapStateToProps = (state) => {
+//     return {
+//         ...state.topic
+//     }
+// }
 const mapDispatchToProps = { good, collect, join } ;
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(DataCard)
+export default connect(null, mapDispatchToProps)(DataCard)

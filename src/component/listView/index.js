@@ -8,78 +8,80 @@ import {
     WhiteSpace
 } from "antd-mobile"
 import DataCard from '../card';
-const data = [
-    {
-        img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
-        title: 'Meet hotel',
-        des: '不是所有的兼职汪都需要风吹日晒',
-    },
-    {
-        img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-        title: 'McDonald\'s invites you',
-        des: '不是所有的兼职汪都需要风吹日晒',
-    },
-    {
-        img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-        title: 'Eat the week',
-        des: '不是所有的兼职汪都需要风吹日晒',
-    },
-];
+import './listView.css';
+import { loading,  } from '../../action/app.action';
+import { loadMore } from "../../action/topic.action";
 
-const NUM_ROWS = 10;//每页渲染的个数
-let pageIndex = 0;// 页数
-function genData(pIndex = 0) {
-    const dataArr = [];
-    for (let i = 0; i < NUM_ROWS; i++) {
-        dataArr.push(`row - ${(pIndex * NUM_ROWS) + i}`);
-    }
-    return dataArr;
-}
 
+// const NUM_ROWS = 5;//每页渲染的个数
+// let pageIndex = 0;// 页数
+
+const data = [{a : 1}]
 class List extends Component {
-    constructor(props) {
+    constructor(props) { 
         super(props);
         const dataSource = new ListView.DataSource({
             rowHasChanged: (row1, row2) => row1 !== row2,
         });
 
         this.state = {
+            NUM_ROWS : 5, //当前每次渲染条目しゅ
+            pageIndex : 0, // 当前页数
             dataSource,
-            isLoading: true,
-            height: document.documentElement.clientHeight,
-            useBodyScroll: true,
-            refreshing: false,
+            isLoading: this.props.is_loading, // 是否在更新中
+            height: document.documentElement.clientHeight, //设置高度
+            useBodyScroll: false, // 不适用body
+            refreshing: false, // 显示刷新状态
         };
     }
-    componentDidUpdate() {
-        if (this.state.useBodyScroll) {
-            document.body.style.overflow = 'auto';
-        } else {
-            document.body.style.overflow = 'hidden';
+    genData(pIndex= 0){
+        const NUM_ROWS = this.state.NUM_ROWS;
+        const pageIndex = this.state.pageIndex;
+        const dataArr = [];
+        for (let i = 0; i < NUM_ROWS; i++) {
+            dataArr.push(`row - ${(pIndex * NUM_ROWS) + i}`);
         }
+        return dataArr;
+    }
+    componentWillReceiveProps(nextProps){
+        if (nextProps.dataSource !== this.props.topic_data) {
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(nextProps.topic_data),
+            });
+        }
+    }
+    // shouldComponentUpdate(nextProps,nextState){
+    // }
+    componentDidUpdate() {
+        // if (this.state.useBodyScroll) {
+        //     document.body.style.overflow = 'auto';
+        // } else {
+        //     document.body.style.overflow = 'hidden';
+        // }
     }
     componentDidMount() {
         const hei = this.state.height - ReactDOM.findDOMNode(this.lv).offsetTop;
-
         setTimeout(() => {
-            this.rData = genData();
+            this.rData = this.genData();
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(genData()),
+                dataSource: this.state.dataSource.cloneWithRows(this.genData()),
                 height: hei,
                 isLoading: false,
             });
         }, 1500);
     }
+
     // 刷新回调函数
     onRefresh = () => {
-        this.setState({ refreshing: true, isLoading: true });
+        this.setState({ refreshing: true ,isLoading : true });
+        // 正在加载
         // simulate initial Ajax
         setTimeout(() => {
-            this.rData = genData();
+            this.rData = this.genData();
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(this.rData),
                 refreshing: false,
-                isLoading: false,
+                isLoading : false
             });
         }, 600);
     }
@@ -87,41 +89,55 @@ class List extends Component {
     onEndReached = (event) => {
         // load new data
         // hasMore: from backend data, indicates whether it is the last page, here is false
-        if (this.state.isLoading && !this.state.hasMore) {
+        if ( this.state.isLoading && !this.state.hasMore) {
+            // 判断是否在加载，如果在加载的话 并且没有更多的数据则返回空
+            console.log('正在更新中');
             return;
         }
-        console.log('reach end', event);
-        this.setState({ isLoading: true });
+        // console.log('reach end', event);
+        this.setState({isLoading:true});
+        this.props.loadMore();
         setTimeout(() => {
-            this.rData = [...this.rData, ...genData(++pageIndex)];
+            this.setState({pageIndex: ++this.state.pageIndex})
+            this.rData = [...this.rData, ...this.genData(this.state.pageIndex)];
+            console.log("this.rData",this.rData);
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(this.rData),
-                isLoading: false,
+                isLoading : false
             });
         }, 1000);
     };
     render = () => {
         // 空隙
         const separator = (sectionID, rowID) => (
-            <div
-                key={`${sectionID}-${rowID}`}
-                style={{
+            < WhiteSpace key = {
+                `${sectionID}-${rowID}`
+            }
+            size = "sm"
+            style = {
+                {
                     backgroundColor: '#F5F5F9',
-                    height: 8,
                     borderTop: '1px solid #ECECED',
                     borderBottom: '1px solid #ECECED',
-                }}
+                }
+            }
             />
         );
-        let index = data.length - 1;
+        let index = this.props.topic_data.length; // 选染行的个数；
+        //当前已经渲染で条目数
+        const nowRow = (this.state.pageIndex + 1) * this.state.NUM_ROWS
+        console.log("genData", this.genData());
+        console.log("nowRow", nowRow);
         const row = (rowData, sectionID, rowID) => {
-            if (index < 0) {
-                index = data.length - 1;
+       
+
+            if (index < nowRow) {
+                index = this.props.topic_data.length - 1;
             }
-            const obj = data[index--];
+            const card_data = this.props.topic_data[index--];
             return (
                 <div key={rowID} style={{width:"100%"}}>
-                    <DataCard />
+                    <DataCard card_data = {card_data}/>
                 </div>
             );
         };
@@ -140,25 +156,29 @@ class List extends Component {
                         useBodyScroll={this.state.useBodyScroll}
                         style={this.state.useBodyScroll ? {} : {
                             height: this.state.height,
+            
                             border: '1px solid #ddd',
                             margin: '5px 0',
                         }}
                         pullToRefresh={<PullToRefresh
                             refreshing={this.state.refreshing}
                             onRefresh={this.onRefresh}
-                            distanceToRefresh={50}
                         />}
                         onEndReached={this.onEndReached}
+                        onEndReachedThreshold={25}
                         // 每次事件循环渲染的行数
-                        pageSize={5}
-                        
-                        
+                        pageSize={5}                   
                     />
             </div>
         )
     }
 }
 
-const mapDispatchToProps = {};
-
+const mapDispatchToProps = {loading, loadMore};
+// const mapStateToProps = (state) =>{
+//     return {
+//         ...state.app,
+//         ...state.topic
+//     }
+// }
 export default connect(null, mapDispatchToProps)(List)

@@ -6,7 +6,7 @@ const Footer = (props)=>{
     const { good_nums , comment_nums,menber_nums} = props;
     const icon_good = !is_good ? "good": "good-active" ;
     const icon_collect = !is_collect ? "collection" : "collection-active";    
-    const icon_join = !is_join ? "menber" : "menber-active" ;
+    const icon_join = !is_join ? "menber" : "menber" ;
     const icon_comment = "comment" ;
     return (
         <div className="card-footer">

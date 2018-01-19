@@ -23,12 +23,20 @@ class Square extends Component{
                         <Icon key="1" type="ellipsis" />,
                     ]}
                 >搜索你想看的</NavBar>
-               <ListView />
+               <ListView {...this.props}/>
             </div>
         )
     }
 }
 
 const mapDispatchToProps ={};
+const mapStateToProps = (state) => {
+    return (
+        {
+            ...state.topic,
+            ...state.app,
+        }
+    );
+}
 
-export default connect(null, mapDispatchToProps)(Square)
+export default connect(mapStateToProps, mapDispatchToProps)(Square)
