@@ -16,6 +16,7 @@ class Square extends Component{
         return(
             <div>
                 <NavBar
+                    className="my-tab-bar"
                     mode="light"
                     icon={<Icon key="0" type="search" />}
                     onLeftClick={() => {this.props.history.push('/search')}}

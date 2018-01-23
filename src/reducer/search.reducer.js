@@ -2,7 +2,7 @@ import {SEARCH} from '../action/search.action'
 
 const initSearch = {
     key : "",
-    search_result:[]
+    search_result:[] 
 }
 
 export default  function search(state = initSearch ,action){

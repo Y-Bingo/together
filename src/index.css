@@ -25,7 +25,7 @@ img{
   width: 100%;
 }
 /* navBar样式 */
-.am-navbar {
+.my-tab-bar {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
