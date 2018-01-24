@@ -5,10 +5,12 @@ const initState = {};
 export default function user(state = initState, action) {
     const {type , ...orther} = action;
     switch (type) {
-        case ActionTypes.LOGIN:
+        case ActionTypes.LOGIN: // 登录
             return {...state,...orther} ;
-        case ActionTypes.REGISTER:
+        case ActionTypes.REGISTER: // 注册
             return {...state,...orther} ;
+        case ActionTypes.EDIT : // 编辑
+            return {...state,...orther};
         default:
             return state;
     }

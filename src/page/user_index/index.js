@@ -41,7 +41,7 @@ class UserIndex extends Component {
                     <Card onClick={this.clickToEdit}>
                         <Card.Header
                             title={<Title/>}
-                            thumb={<img src={require("./img/head-boy.png")} style={{width:"5.5rem",height:"5.5rem",verticalAlign:"top"}}/>}
+                            thumb={<img src={require("./img/head-boy.png")} style={{width:"5.5rem",height:"5.5rem",verticalAlign:"top"}} alt="user_head_photo"/>}
                         />
                         {/* </Card.Header> */}
                     </Card>
@@ -50,22 +50,22 @@ class UserIndex extends Component {
                 <WhiteSpace />
                 <List>
                     <List.Item
-                        thumb={<img src={require('./img/care.png')}/>}
+                        thumb={<img src={require('./img/care.png')} alt="care"/>}
                     >
                         我关注的活动
                     </List.Item>
                     <List.Item
-                        thumb={<img src={require('./img/collect.png')} />}
+                        thumb={<img src={require('./img/collect.png')} alt="collect"/>}
                     >
                         我的收藏
                     </List.Item>
                     <List.Item
-                        thumb={<img src={require("./img/msg.png")}/>}
+                        thumb={<img src={require("./img/msg.png")} alt="msg"/>}
                     >
                         我的通知
                     </List.Item>
                     <List.Item
-                        thumb={<img src={require("./img/help.png")}/>}
+                        thumb={<img src={require("./img/help.png")} alt="help"/>}
                     >
                         帮助与反馈
                     </List.Item>
@@ -73,7 +73,7 @@ class UserIndex extends Component {
                 <WhiteSpace size="sm" />
                 <List>
                     <List.Item
-                        thumb={<img src={require("./img/publish.png")} />}
+                        thumb={<img src={require("./img/publish.png")} alt="publish"/>}
                     >
                         我发布过的活动
                     </List.Item>
