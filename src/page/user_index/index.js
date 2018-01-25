@@ -26,6 +26,9 @@ class UserIndex extends Component {
         this.props.history.push("/edit");
         console.log('clicktoEdit');
     }
+    handleClick = (type) => {
+        this.props.history.push(`/user/${type}/${this.props.uid}`);
+    }
     
     render() {
         return (
@@ -51,21 +54,25 @@ class UserIndex extends Component {
                 <List>
                     <List.Item
                         thumb={<img src={require('./img/care.png')} alt="care"/>}
+                        onClick={()=>{this.handleClick("care")}}
                     >
                         我关注的活动
                     </List.Item>
                     <List.Item
                         thumb={<img src={require('./img/collect.png')} alt="collect"/>}
+                        onClick={() => { this.handleClick("collect") }}
                     >
                         我的收藏
                     </List.Item>
                     <List.Item
                         thumb={<img src={require("./img/msg.png")} alt="msg"/>}
+                        onClick={() => { this.handleClick("msg") }}
                     >
-                        我的通知
+                        我的消息
                     </List.Item>
                     <List.Item
                         thumb={<img src={require("./img/help.png")} alt="help"/>}
+                        onClick={() => { this.handleClick("help") }}
                     >
                         帮助与反馈
                     </List.Item>
@@ -74,6 +81,7 @@ class UserIndex extends Component {
                 <List>
                     <List.Item
                         thumb={<img src={require("./img/publish.png")} alt="publish"/>}
+                        onClick={() => { this.handleClick("publish") }}
                     >
                         我发布过的活动
                     </List.Item>

@@ -1,6 +1,10 @@
 import * as ActionTypes from '../action/user.action';
 
-const initState = {};
+const initState = {
+    uid : "001",
+    user_name : "",
+    user_sex : "boy"
+};
 
 export default function user(state = initState, action) {
     const {type , ...orther} = action;
