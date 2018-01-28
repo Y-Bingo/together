@@ -15,6 +15,8 @@ export default function user(state = initState, action) {
             return {...state,...orther} ;
         case ActionTypes.EDIT : // 编辑
             return {...state,...orther};
+        case ActionTypes.CARE: // 关注
+            return { ...state, ...orther };
         default:
             return state;
     }
