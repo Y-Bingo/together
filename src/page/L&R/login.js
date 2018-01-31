@@ -5,15 +5,16 @@ import {
     List,
     InputItem,
     Button,
-
+    Toast,
 } from 'antd-mobile';
 
-import {login} from "../../action/user.action";
+import {login, clean_msg} from "../../action/user.action";
 
 const ActionCreator = {
-    login
+    login,
+    clean_msg
 };
-
+ 
 class Login extends Component {
     state = {
         hasError: false,
@@ -23,9 +24,14 @@ class Login extends Component {
     componentDidMount() {
         // this.props.login();
     }
-
+    showMsg(text){
+        if(text){
+            Toast.info(text, 1.5, () => {
+                this.props.clean_msg();
+            })
+        }
+    }
     onChange = (key, value) => {
-        console.log(key,value)
         this.setState({
             [key] : value
         })
@@ -33,7 +39,8 @@ class Login extends Component {
     render() {
         return (
             // <WingBlank>
-                <div>
+            <div>
+                    {this.props.msg ? this.showMsg(this.props.msg) :null }
                     <WhiteSpace />
                     <List>
                         <InputItem
@@ -58,7 +65,7 @@ class Login extends Component {
                     <List>
                         <Button 
                             type="primary"
-                            onClick={this.props.login}
+                            onClick={()=>{this.props.login(this.state)}}
                         >登录</Button>
                     </List>
                     <WhiteSpace size="lg"/>

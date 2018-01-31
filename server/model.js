@@ -4,16 +4,16 @@ mongoose.connect("mongodb://127.0.0.1:27017/together");
 
 const model = {
     user : {
-        user_name : {"type":String,"require":true},//用户名
-        user_pwd : {"type":String,"require":true},//用户密码
-        user_creat_time : {"type":Date,default:Date.now}, // 创建时间
-        user_age : {type:Number,default:0},//年龄
-        user_sex : {type:String,enum:["boy","girl"]},//性别
-        user_city : {type:String},//所在城市
+        user_name : {"type":String, require:true},//用户名
+        user_pwd : {"type":String, require:true},//用户密码
+        user_creat_time : {"type":Date, default:Date.now}, // 创建时间
+        user_age : {type:Number, default:0},//年龄
+        user_sex : {type:String, enum:["boy","girl"]},//性别
+        user_city : {type:String, default:"广东工业大学"},//所在城市
         user_head : {type :String, default:'boy'}, // 头像
-        user_touch : {type:String},//用户的联系方式
-        user_signatrue : {type:String},//用户签名
-        user_love_topic : {type:Array,default:[]},//用户喜爱的活动类型
+        user_touch : {type:String, default:"你没有留下任何联系方式"},//用户的联系方式
+        user_signatrue : {type:String, default:"这个用户很懒，什么都没留下"},//用户签名
+        user_love_topic : {type:Array, default:[]},//用户喜爱的活动类型
         
     },
     topic :{

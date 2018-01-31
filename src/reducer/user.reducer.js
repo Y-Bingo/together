@@ -1,9 +1,11 @@
 import * as ActionTypes from '../action/user.action';
 
 const initState = {
-    uid : "001",
+    user_id : "001",
     user_name : "",
-    user_sex : "boy"
+    user_sex : "boy",
+    user_head : "boy",
+    msg : "",
 };
 
 export default function user(state = initState, action) {
@@ -13,10 +15,16 @@ export default function user(state = initState, action) {
             return {...state,...orther} ;
         case ActionTypes.REGISTER: // 注册
             return {...state,...orther} ;
+        case ActionTypes.AUTH_SUCCESS:
+            return { ...state, msg: "", ...action.payload }
         case ActionTypes.EDIT : // 编辑
             return {...state,...orther};
         case ActionTypes.CARE: // 关注
-            return { ...state, ...orther };
+            return {...state, ...orther };
+        case ActionTypes.ERROR_MSG : // 错误信息显示
+            return {...state, ...orther };
+        case ActionTypes.CLEAN_MSG :
+            return {...state, ...orther };
         default:
             return state;
     }

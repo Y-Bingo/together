@@ -9,10 +9,11 @@ import {
     Toast
 } from 'antd-mobile';
 
-import { register } from '../../action/user.action';
+import { register, clean_msg } from '../../action/user.action';
 
 const actionCreator = { 
-    register 
+    register,
+    clean_msg
 };
 
 class Register extends Component {
@@ -21,6 +22,13 @@ class Register extends Component {
         user_name: "",
         user_pwd: "",
         user_repwd: ""
+    }
+    showMsg(text) {
+        if (text) {
+            Toast.info(text, 1.5, () => {
+                this.props.clean_msg();
+            })
+        }
     }
     onErrorClick = () => {
         if (this.state.hasError) {
@@ -45,6 +53,7 @@ class Register extends Component {
         return (
         //    <WingBlank>
                 <div>
+                    {this.props.msg ? this.showMsg(this.props.msg) : null}
                     <WhiteSpace />                    
                     <List>
                         <InputItem
@@ -78,7 +87,7 @@ class Register extends Component {
                     <List>
                         <Button 
                             type="primary"
-                            onClick={this.props.register}
+                            onClick={() => { this.props.register(this.state)}}
                         >注册</Button>
                     </List>
                     {/* <WhiteSpace size="lg"/> */}

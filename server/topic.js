@@ -4,7 +4,7 @@ const Model = require('./model'); //这是一个modules对象
 const UserCare = Model.getModel("topic");//建立模型
 
 // 路由主api测试
-Router.get('/', (res, req, err) => {
+Router.get('/', (req, res   , err) => {
     res.send('这是topic');
 })
 
