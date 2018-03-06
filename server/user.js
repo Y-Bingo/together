@@ -15,7 +15,7 @@ Router.get('/list',function(req,res){
         if(err){
             console.log(err);
         }else{
-           let payData = filter(doc); 
+        //    let payData = filter(doc); 
            res.json({code:0,data:doc});
         }
     })
@@ -102,10 +102,10 @@ Router.get('/',function(req,res){
 
 module.exports = Router;
 
-function filter(data, filters = ["user_pwd","__v"]){
-    const {...filter, ...pureData } = data;
-    return pureData; 
-}
+// function filter(data, filters = ["user_pwd","__v"]){
+//     const {...filter, ...pureData } = data;
+//     return pureData; 
+// }
 
 function md5(C){
     // 通过加盐来时md5明文更加复杂，阻止被暴力破解
