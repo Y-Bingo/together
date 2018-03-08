@@ -1,5 +1,5 @@
 // action
-import * as Action from '../action/topic.action';
+import * as Action from '../action/comment.action';
 const initState = {
     isLoad:true , // 是否重新渲染页面
     loadMore: true , // 是否后去更多的数据了
@@ -33,15 +33,15 @@ const initState = {
 export default function topic(state = initState, action) {
     const {type,...orthers} = action;
     switch (type) {
-        case Action.GOOD:
+        case Action.PUBLISH: //直接在这里添加一条信息
             return {...state,...orthers};
-        case Action.COLLECT:
+        case Action.DELETE:
             return {...state,...orthers};
-        case Action.LOADMORE : {
-            const newData = orthers.payLoad;
-            const oldData = state.topic_data;
-            console.log(newData,oldData);
-            return { ...state, topic_data: newData.concat(oldData)};
+        case Action.REPLY : {
+            return {...stage,...orthers};
+        }
+        case Action.WATCH : {
+
         }
         default:
             return state;

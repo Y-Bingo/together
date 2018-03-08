@@ -26,14 +26,10 @@
     "utility": "^1.13.1"
   },
   "scripts": {
-
-   "start": "react-app-rewired start",
-
-   "build": "react-app-rewired build",
-
-   "test": "react-app-rewired test --env=jsdom",
-
-   "server": "nodemon ./server"
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test --env=jsdom",
+    "server": "nodemon ./server"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.6.3",

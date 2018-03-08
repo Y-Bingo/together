@@ -137,7 +137,7 @@ class List extends Component {
             const card_data = this.props.topic_data[index--];
             return (
                 <div key={rowID} style={{width:"100%"}}>
-                    <DataCard card_data = {card_data}/>
+                    <DataCard card_data = {card_data} history={this.props.history}/>
                 </div>
             );
         };
@@ -146,17 +146,21 @@ class List extends Component {
                     <ListView
                         key={this.state.useBodyScroll ? '0' : '1'}
                         ref={el => this.lv = el}
+                        // 渲染的资源
                         dataSource={this.state.dataSource}
+                        // 渲染的头部
                         renderHeader={() => <span>Pull to refresh</span>}
+                        // 渲染的脚步
                         renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
                             {this.state.isLoading ? 'Loading...' : 'Loaded'}
                         </div>)}
+                        // 渲染的每个子项
                         renderRow={row}
+                        // 渲染的间隔
                         renderSeparator={separator}
                         useBodyScroll={this.state.useBodyScroll}
                         style={this.state.useBodyScroll ? {} : {
                             height: this.state.height,
-            
                             border: '1px solid #ddd',
                             margin: '5px 0',
                         }}

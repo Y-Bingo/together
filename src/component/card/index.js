@@ -17,7 +17,7 @@ class DataCard extends Component{
     state = {
         ...this.props.card_data
     }
-// 点击事件good,collect,comment
+    // 点赞
     good = (e) => {
         console.log("good");
         this.props.good(this.state.is_good);
@@ -25,6 +25,7 @@ class DataCard extends Component{
             is_good : !this.state.is_good
         })
     }
+    // 收藏
     collect = () => {
         console.log("collect");
         this.props.collect(this.state.is_collect);
@@ -32,8 +33,9 @@ class DataCard extends Component{
             is_collect: !this.state.is_collect
         })
     } 
+    // 评论
     comment = () => {
-        console.log("comment");
+        this.props.history.push(`/comment/${this.state.tid}`);
     }
    render = ()=>{
         return (

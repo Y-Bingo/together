@@ -7,12 +7,13 @@ import{
 } from "antd-mobile"
 import ListView from '../component/listView';
 
-
+// 这是一个长列表
 class Square extends Component{
     constructor(props) {
         super(props);
     }
     render = ()=>{ 
+        console.log(this.props)
         return(
             <div>
                 <NavBar
