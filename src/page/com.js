@@ -17,6 +17,9 @@ class CommentPage extends Component{
     componentDidMount(){
         // 请求评论数据
     }
+    clickHandle = () => {
+        console.log("click");
+    }
     render(){
         console.log("welcome to commentpage");
         return (
@@ -30,7 +33,18 @@ class CommentPage extends Component{
                     >评论页</NavBar>
                 <WhiteSpace />
                 <div>
-                    <CommentCard />
+                    <CommentCard onClick={this.clickHandle}/>
+                    <CommentCard onClick={this.clickHandle}/>
+                    <CommentCard onClick={this.clickHandle}/>
+                    <CommentCard onClick={this.clickHandle}/>
+                    <CommentCard onClick={this.clickHandle}/>
+                    <CommentCard onClick={this.clickHandle}/>
+                    <CommentCard onClick={this.clickHandle}/>
+                    <CommentCard onClick={this.clickHandle}/>
+                    <CommentCard onClick={this.clickHandle}/>
+                    <CommentCard onClick={this.clickHandle}/>
+                    <CommentCard onClick={this.clickHandle}/>
+                    <CommentCard onClick={this.clickHandle}/>
                 </div>
                 
 
