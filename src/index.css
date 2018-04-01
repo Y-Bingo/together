@@ -168,4 +168,26 @@ img{
   vertical-align: top;
   width: 100%;
 }
+/*  评论发送按钮 */
+.comment-pulish{
+  line-height: 25px;
+  color:#929292;
+  width : 60px;
+  height: 25px;
+  background-color:#ffffff;
+  border-left: 1px solid gray;
+  font-size:1.2rem;
+  font-weight:normal;
+  text-align:center;
+  display:inline-block;
+  text-decoration:none;
+}
+/* .comment-pulish:hover{
+  background-color:#d8d7d8;
+}
+
+.comment-pulish:active {
+  background-color: #d8d7d8;
+} */
+
 

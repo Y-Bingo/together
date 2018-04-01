@@ -6,6 +6,7 @@ import {
     Route,
     Link
   } from 'react-router-dom'
+import TopicPublish from "./topic.publish";
 function Concern() {
     return (
         <div>concern</div>
@@ -43,6 +44,13 @@ class TopIndex extends Component {
                 badge: "",
                 component : Concern,
                 path : "/concern"
+            }, {
+                title: '发布',
+                icon: "https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg",
+                selectIcon: "https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg",
+                badge: "",
+                component: TopicPublish,
+                path: "/publish"
             }, {
                 title: "我的",
                 icon: "https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg",

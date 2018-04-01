@@ -32,6 +32,7 @@ class List extends Component {
             height: document.documentElement.clientHeight, //设置高度
             useBodyScroll: false, // 不适用body
             refreshing: false, // 显示刷新状态
+            topic_data : [] // 数据
         };
     }
     genData(pIndex= 0){
@@ -44,7 +45,7 @@ class List extends Component {
         return dataArr;
     }
     componentWillReceiveProps(nextProps){
-        if (nextProps.dataSource !== this.props.topic_data) {
+        if (nextProps.dataSource !== this.state.topic_data) {
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(nextProps.topic_data),
             });
@@ -123,7 +124,7 @@ class List extends Component {
             }
             />
         );
-        let index = this.props.topic_data.length; // 选染行的个数；
+        let index = this.state.topic_data.length; // 选染行的个数；
         //当前已经渲染で条目数
         const nowRow = (this.state.pageIndex + 1) * this.state.NUM_ROWS
         console.log("genData", this.genData());
@@ -132,9 +133,9 @@ class List extends Component {
        
 
             if (index < nowRow) {
-                index = this.props.topic_data.length - 1;
+                index = this.state.topic_data.length - 1;
             }
-            const card_data = this.props.topic_data[index--];
+            const card_data = this.state.topic_data[index--];
             return (
                 <div key={rowID} style={{width:"100%"}}>
                     <DataCard card_data = {card_data} history={this.props.history}/>
@@ -149,7 +150,7 @@ class List extends Component {
                         // 渲染的资源
                         dataSource={this.state.dataSource}
                         // 渲染的头部
-                        renderHeader={() => <span>Pull to refresh</span>}
+                        renderHeader={() => <p></p>}
                         // 渲染的脚步
                         renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
                             {this.state.isLoading ? 'Loading...' : 'Loaded'}
@@ -177,7 +178,9 @@ class List extends Component {
         )
     }
 }
-
+const mapStateToProps = (state) => ({
+    topic_data : state.topic_data
+})
 const mapDispatchToProps = {loading, loadMore};
 // const mapStateToProps = (state) =>{
 //     return {

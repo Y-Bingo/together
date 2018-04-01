@@ -8,11 +8,6 @@ import user_info from './user.info.reducer'; // 用户信息
 import des from './topic.des.reducer'; // 主题详细内容
 
 
-
-
-
-
-
 export default combineReducers({
     app,
     user,

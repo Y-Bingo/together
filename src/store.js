@@ -1,5 +1,5 @@
 import { createStore,  applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
+import thunk from 'redux-thunk'; // 异步处理
 // import { } from 'redux-devtools';
 import reducer from './reducer';
 

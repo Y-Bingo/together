@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import {
     Card,
     List
@@ -20,10 +21,24 @@ const style = {
         minHeight : "15px"
     },
     reply : {
-        backgroundColor:"gray",
+        backgroundColor: "#f2f2f247",
+        borderTop: "1px solid #b3afaf42",
+        padding: "5px 10px",
+        margin: "5px 20px",
+        fontSize: "1rem",
+        p: {
+            lineHeight : "22px",
+            a: {
+                color: "blue"
+            }
+        },
         span:{
-            color:"blue"
-        }
+            color: "#3a3a46",
+            fontWeight: "bolder",
+            marginRight: "5px"
+
+        },
+        
     }
 }
 const Thumb = () => (
@@ -32,11 +47,19 @@ const Thumb = () => (
     </div>
 )
 
-
-
 class CommentCard extends Component {
     constructor(){
         super();
+    }
+    moreComment = () => {
+        console.log("产看更多评论");
+    }
+    publishCommnet = () => {
+        console.log("publishComment");
+    }
+    replyComment = () => {
+
+        console.log("回复评论");
     }
     render() {
         return (
@@ -52,8 +75,22 @@ class CommentCard extends Component {
                             {"这里是评论内容"}
                         </div>
                         <div style={style.reply}>
-                            <span style={style.reply.span}>{"ingi :"}</span>
-                            {"这里是回复的评论"}
+                            <p>
+                                <span style={style.reply.span}>
+                                    {"username"}
+                                </span>
+                                {}
+                                {"这里是回复的评论"}
+                            </p>
+                            <p>
+                                <span style={style.reply.span}>{"ingi :"}</span>
+                                {"这里是回复的评论"}
+                            </p>
+                            <p>
+                                <span style={style.reply.span}>{"ingi :"}</span>
+                                {"这里是回复的评论"}
+                            </p>
+                            <a>更多评论 》》</a>  
                         </div>
                     </Card.Body>
                     <Card.Footer />
@@ -62,7 +99,17 @@ class CommentCard extends Component {
         )
     }
 }
+const mapStateToProps = (state) => (
+    {
+        
+    }
+)
+const mapDispatchToProps = () => (
+    {
 
-export default CommentCard ;
+    }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentCard)
 
 

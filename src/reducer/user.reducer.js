@@ -15,7 +15,7 @@ export default function user(state = initState, action) {
             return {...state,...orther} ;
         case ActionTypes.REGISTER: // 注册
             return {...state,...orther} ;
-        case ActionTypes.AUTH_SUCCESS:
+        case ActionTypes.AUTH_SUCCESS: //登录成功
             return { ...state, msg: "", ...action.payload }
         case ActionTypes.EDIT : // 编辑
             return {...state,...orther};
@@ -29,3 +29,5 @@ export default function user(state = initState, action) {
             return state;
     }
 }
+
+

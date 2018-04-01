@@ -13,7 +13,6 @@ class Square extends Component{
         super(props);
     }
     render = ()=>{ 
-        console.log(this.props)
         return(
             <div>
                 <NavBar
@@ -31,11 +30,10 @@ class Square extends Component{
     }
 }
 
-const mapDispatchToProps ={};
+const mapDispatchToProps = {};
 const mapStateToProps = (state) => {
     return (
         {
-            ...state.topic,
             ...state.app,
         }
     );
