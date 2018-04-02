@@ -12,6 +12,9 @@ import {
 import CommentCard from '../component/comment_card';
 import {publishComment} from "../action/comment.action";
 const style = {
+    content:{
+        margin: "45px 0 40px "
+    },
     publish : {
         position: "fixed",
         zIndex: 9999,
@@ -65,7 +68,7 @@ class CommentPage extends Component{
                     className="my-tab-bar"
                     >评论页</NavBar> 
                 <WhiteSpace />
-                <div style={{margin:"45px 0 15px 0"}}>
+                <div style={style.content}>
                     <CommentCard onClick={this.onClickHandle}/>
                     <CommentCard onClick={this.onClickHandle}/>
                     <CommentCard onClick={this.onClickHandle}/>
@@ -79,7 +82,7 @@ class CommentPage extends Component{
                     <CommentCard onClick={this.onClickHandle}/>
                     <CommentCard onClick={this.onClickHandle}/>
                 </div>
-                <div className={style.publish}>
+                <div style={style.publish}>
                     <List  >
                         <InputItem
                             placeholder="输入你的评论"
