@@ -33,11 +33,54 @@ class CommentPage extends Component{
     constructor(){
         super();
         this.state = {
-            myComment : ""
+            comData : [
+                {
+                    com_id: 1,// 评论ID
+                    com_topic: {// 是在哪个活动中评论的
+                        tid: 1, // 活动ID
+                        topic_title: "活动1" // 活动标题
+                    },
+                    com_dec: "活动1的第一个评论",//评论的主要内容
+                    com_from: {//评论来之谁
+                        user_name: "user1", // 评论人的名字
+                        uid: 1 // 评论人的id
+                    },
+                    com_time: "2018/02/1",//评论时间
+                },
+                {
+                    com_id: 2,// 评论ID
+                    com_topic: {// 是在哪个活动中评论的
+                        tid: 1, // 活动ID
+                        topic_title: "活动1" // 活动标题
+                    },
+                    com_dec: "活动1的第二个评论",//评论的主要内容
+                    com_from: {//评论来之谁
+                        user_name: "user2", // 评论人的名字
+                        uid: 2 // 评论人的id
+                    },
+                    com_time: "2018/02/3",//评论时间
+                },
+                {
+                    com_id: 3,// 评论ID
+                    com_topic: {// 是在哪个活动中评论的
+                        tid: 1, // 活动ID
+                        topic_title: "活动1" // 活动标题
+                    },
+                    com_dec: "活动1的第三个评论",//评论的主要内容
+                    com_from: {//评论来之谁
+                        user_name: "user3", // 评论人的名字
+                        uid: 3 // 评论人的id
+                    },
+                    com_time: "2018/02/4",//评论时间
+                }
+            ]
         }
     }
     componentDidMount(){
         // 请求评论数据
+        // this.setState({
+        //     comData : this.props.data
+        // });
     }
     onClickHandle = () => {
         console.log("click");
@@ -55,8 +98,13 @@ class CommentPage extends Component{
         });
         this.props.publishComment({myComment});
     }
+    addReplyTo = (evt) => {
+        console.log(evt.target.key);
+    }
     render(){
-        console.log("welcome to commentpage");
+        // let addReplyTo = this.addReplyTo;
+        let _this = this ;
+        this.addReplyTo = this.addReplyTo.bind(this);
         return (
             <div>
                 <NavBar
@@ -68,19 +116,12 @@ class CommentPage extends Component{
                     className="my-tab-bar"
                     >评论页</NavBar> 
                 <WhiteSpace />
-                <div style={style.content}>
-                    <CommentCard onClick={this.onClickHandle}/>
-                    <CommentCard onClick={this.onClickHandle}/>
-                    <CommentCard onClick={this.onClickHandle}/>
-                    <CommentCard onClick={this.onClickHandle}/>
-                    <CommentCard onClick={this.onClickHandle}/>
-                    <CommentCard onClick={this.onClickHandle}/>
-                    <CommentCard onClick={this.onClickHandle}/>
-                    <CommentCard onClick={this.onClickHandle}/>
-                    <CommentCard onClick={this.onClickHandle}/>
-                    <CommentCard onClick={this.onClickHandle}/>
-                    <CommentCard onClick={this.onClickHandle}/>
-                    <CommentCard onClick={this.onClickHandle}/>
+                <div style={style.content}  >
+                    {
+                        this.state.comData.map( (item, index) => (
+                                <CommentCard onClick={this.addReplyTo} comment={item} key={item.com_id}/>
+                        ),this)
+                    }
                 </div>
                 <div style={style.publish}>
                     <List  >
@@ -103,9 +144,9 @@ const mapDispatchToProps = () => {
         publishComment
     })
 }
-const mapStateToProps = () => {
+const mapStateToProps = (state) => {
     return ({
-        
+        comData: state.comment
     })
 }
 

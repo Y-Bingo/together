@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 mongoose.connect("mongodb://127.0.0.1:27017/together");
 
 const model = {
+    // 用户
     user : {
         uid: {"type":Number,require:true} ,//  这是一个用户ID
         user_name : {"type":String, require:true},//用户名
@@ -24,6 +25,7 @@ const model = {
         ]
         
     },
+    // 活动主题
     topic :{
         tid : {"type":Number,require: true}, // 这是一个主题id
         topic_title : {type:String,require:true},//活动标题
@@ -56,20 +58,45 @@ const model = {
         topic_collected :{type:Number,default:0},//被收藏数
         topic_comments : {type:Number,default:0},//被评论数
     },
-    tap :{ // 活动类型
+    // 活动类型
+    tap :{ 
         tap_id : Number , // 类型ID
         tap_type: String  // 类型名
     },
+    // 评论
     comment : {
+        com_id : Number ,// 评论ID
         com_topic: {// 是在哪个活动中评论的
             tid: Number , // 活动ID
             topic_title: String // 活动标题
         },
         com_dec :  {type:String,require:true},//评论的主要内容
-        com_from : {type:String,require:true},//评论来之谁
-        com_to :   {type:String,default:""} ,//评论给谁
+        com_from : {
+            user_name : String , // 评论人的名字
+            uid : Number // 评论人的id
+        },//评论来之谁
+        com_to : {
+            user_name: String, // 收到评论人的名字
+            uid: Number // 收到评论人的id
+        } ,
         com_time : {type:Date,default:Date.now},//评论时间
     },
+    // 回复
+    reply: {
+        rep_id: Number,// 评论ID
+        com_id: Number ,// 评论id
+        rep_dec: String,//回复的内容
+        rep_from: {
+            user_name: String, // 评论人的名字
+            uid: Number // 评论人的id
+        },//评论来之谁
+        rep_to: {
+            user_name: String, // 收到评论人的名字
+            uid: Number // 收到评论人的id
+        },
+        rep_time: { type: Date, default: Date.now },// 回复的时间
+    },
+    // 关注
     care : {  // 用户关注
         care_id : {type: Number, require:true}, // 关注ID
         care_from : {
@@ -81,6 +108,7 @@ const model = {
             user_name : String ,//用户名
         }
     },
+    // 收藏
     collect : { // 收藏 
         collect_id : {type:Number, require:true}, // ID 
         user : { //
@@ -92,6 +120,7 @@ const model = {
             topic_title: String , // 收藏的标题
         }
     },
+    // 推荐
     recommend :{ // 推荐给用户的主题
         rid: {type: Number, require: true },// 推荐ID
         uid: { type: Number, require: true },// 用户ID
