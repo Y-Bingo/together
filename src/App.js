@@ -35,8 +35,8 @@ class App extends Component {
                 <Route path="/index" component={ TopIndex } /> {/*主页（广场）*/}
                 <Route path="/log" component={ LogOrReg } /> {/*登录注册*/}
                 {/* <Route path="/topic/public" comment={} /> 主题的发布 */}
-                <Route path="/topic/des/:tid" component={ TopicDes } /> {/* 主题详情页 */}
-                <Route path="/comment/:tid" component={ CommentPage } /> {/* 评论页*/ }
+                <Route path="/topic/des/:tid" component={ TopicDes } /> {/* 主题详情页 需要tid*/}
+                <Route path="/comment/:tid" component={ CommentPage } /> {/* 评论页 需要tid*/ }
                 <Route path="/user" component={ UserIndex }  exact/> {/*用户主页*/}
                 <Route path="/user/edit" component={ UserInfoEdit } /> {/*用户信息编辑*/}
                 <Route path="/user/collect/:uid" component={ CommonList } /> {/*用户收藏页*/}

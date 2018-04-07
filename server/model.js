@@ -74,11 +74,7 @@ const model = {
         com_from : {
             user_name : String , // 评论人的名字
             uid : Number // 评论人的id
-        },//评论来之谁
-        com_to : {
-            user_name: String, // 收到评论人的名字
-            uid: Number // 收到评论人的id
-        } ,
+        },//评论来之谁,
         com_time : {type:Date,default:Date.now},//评论时间
     },
     // 回复

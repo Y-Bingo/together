@@ -56,7 +56,7 @@ class CommentCard extends Component {
     constructor(){
         super();
         this.state = {
-            data : [],
+            data : [], // 这个是该评论的回复数据
             showMore: 2 
         }
     }
@@ -128,7 +128,6 @@ class CommentCard extends Component {
         this.setState({
             showMore : this.state.showMore + 1
         })
-        console.log(this.state.showMore);
     }
     render() {
         let comment = this.props.comment ;
@@ -139,6 +138,7 @@ class CommentCard extends Component {
                         title={comment.com_from.user_name}
                         thumb={<Thumb/>}
                         extra={comment.com_time}
+                        onClick={()=>{this.props.handleClick(comment.com_id,comment.com_from)}}
                     />
                     <Card.Body style={style.cardBody}>
                         <div style={style.body}>
