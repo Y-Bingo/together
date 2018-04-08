@@ -18,11 +18,12 @@ import * as ActionTypes from '../action/user.action';
 //     }
 // ]
 const initState = {
-    uid : "as",
+    uid : "",
     user_name : "YB",
     user_sex : "boy",
-    user_head : "boy",
+    user_head : "",
     msg : "",
+    user_signatrue: "你若安好，便是晴天"
 };
 
 export default function user(state = initState, action) {

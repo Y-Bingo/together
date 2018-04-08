@@ -3,7 +3,8 @@ import {
     Tabs,
     WhiteSpace,
     List,
-    Flex
+    Flex,
+    Grid
 } from 'antd-mobile';
 
 
@@ -12,7 +13,7 @@ import Register from './register';
 import Logo from '../../component/logo/logo';
 import './L&R.css';
 
-const tabs = [
+const tabs = [ //
   { title: '登录' },
   { title: '注册' },
 ];
@@ -27,16 +28,24 @@ const style = {
     },
     img:{
         width:"100%"
+    },
+    bottom:{
+        position: 'fixed',
+        bottom: 0,
+        width: "100%"
     }
 }
-const LM = [
-    {title : "qq", icon:"qq"},
-    {title : "weixin", icon:"weixin"},
-    {title : "weibo", icon:"weibo"}
+const LM = [ // 其他的登录方式
+    {title : "",icon : ""},
+    {title : "QQ", icon:"qq"},
+    {title : "微信", icon:"weixin"},
+    {title : "微博", icon:"weibo"},
+    {title : "", icon:""}
 ];
+const myImg = src => <img src={require(`./img/${src.icon}.png`)} className="am-icon am-icon-lg" alt={src.title} />;
 // console.log(this.props);
 const LogOrReg = (props) => (
-    <div>
+    <div >
         <Logo />
         
         <Tabs tabs={tabs} initialPage={0} animated={false} useOnPan={false}>
@@ -51,22 +60,20 @@ const LogOrReg = (props) => (
             </div> */}
         </Tabs>
         < WhiteSpace size = "md" />
-        <div className="LM">
-            <List 
-                renderHeader={()=>("其他登录方式")}>
-                 <Flex >
-                     <Flex.Item />
-                {
-                    LM.map((item,index) => (
-                        <Flex.Item key={item.title}>
-                            <img  src={require(`./img/${item.icon}.png`)} alt={item.title}/>
-                            <span>{item.title}</span>
-                        </Flex.Item>
-                    ))
-                }
-                     <Flex.Item />
-                    
-                </Flex>
+        <div style={style.bottom}>
+            <List renderHeader={()=>(<div style={{textAlign:"center", fontSize:"1.2rem"}}>————其他登录方式————</div>)}>
+                  <Grid data={LM}
+                    columnNum={5}
+                    hasLine={false}
+                    renderItem={dataItem => (
+                        <div style={{ padding: '12.5px 0 0 0' }}>
+                            <img src={require(`./img/${dataItem.icon}.png`)} style={{ width: '40px', height: '40px' }} alt="" />
+                            <div style={{ color: '#888', fontSize: '14px', marginTop: '12px' }}>
+                                <span>{dataItem.title}</span>
+                            </div>
+                        </div>
+                    )}
+                    />
             </List>
         </div>
     </div>
