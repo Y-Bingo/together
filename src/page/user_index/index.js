@@ -9,7 +9,7 @@ import {
     Card, 
     Popover // 气泡
 } from 'antd-mobile';
-
+const myImg = src => <img src={require(`./img/${src}.png`)} className="am-icon am-icon-lg" alt={""} />;
 const Title = (props) => {
     // 没有用户名的和签名则，当用户没有登录
     const name = props.user_name ? props.user_name : "你还没登录呢！" ;
@@ -23,7 +23,7 @@ const Title = (props) => {
     
 }
 const Item = Popover.Item;
-const myImg = src => <img src={require(`./img/${src}.png`)} className="am-icon am-icon-xs" alt="" />;
+
 const RightContent = () => (
     <Popover mask
         overlayClassName="fortest"
@@ -63,6 +63,9 @@ class UserIndex extends Component {
             user : {}
         }
     }
+    componentWillReceiveProps(newProps){
+        console.log(newProps);
+    }
     componentDidMount(){
         this.setState({
             user : this.props.user
@@ -78,12 +81,13 @@ class UserIndex extends Component {
         // 如果用户登录的，则跳转到编辑页面
     }
     handleClick = (type) => {
-        this.props.history.push(`/user/${type}/${this.props.uid}`);
+        this.props.history.push(`/user/${type}/${this.state.user.uid}`);
     }
     
     render() {
+        let user = this.state.user;
         // const /
-        let user_head = this.state.user.user_head ? this.state.user.user_head : "head-default";
+        let user_head = user.user_head ? user.user_head : "head-default";
         return (
             <div>
                 <NavBar
@@ -94,7 +98,7 @@ class UserIndex extends Component {
                 <List>
                     <Card onClick={this.clickToEdit}>
                         <Card.Header
-                            title={<Title {...this.state.user}/>}
+                            title={<Title {...user}/>}
                             thumb={<img src={require(`./img/${user_head}.png`)} style={{width:"5.5rem",height:"5.5rem",verticalAlign:"top"}}  alt="user_head_photo"/>}
                         />
                         {/* </Card.Header> */}
@@ -107,13 +111,13 @@ class UserIndex extends Component {
                         thumb={myImg('care')}
                         onClick={()=>{this.handleClick("care")}}
                     >
-                        我关注的活动
+                        我关注的人
                     </List.Item>
                     <List.Item
                         thumb={myImg('collect')}
                         onClick={() => { this.handleClick("collect") }}
                     >
-                        我的收藏
+                        我的收藏的活动
                     </List.Item>
                     <List.Item
                         thumb={myImg('msg')}
@@ -135,6 +139,12 @@ class UserIndex extends Component {
                         onClick={() => { this.handleClick("publish") }}
                     >
                         我发布过的活动
+                    </List.Item>
+                    <List.Item
+                        thumb={myImg('join')}
+                        onClick={()=>{this.handleClick("join")}}
+                    >
+                        我参加的活动
                     </List.Item>
                 </List>
             </div>

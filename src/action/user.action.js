@@ -12,6 +12,7 @@ export const CLEAN_MSG = "CLEAN_MSG";// 清除信息
 // 登录
 export function login({ user_name, user_pwd }){
     console.log("action","登录");
+    console.log({user_name,user_pwd});
     if( !user_name  || !user_pwd ){
         return error_msg('用户名密码必须输入！');
     }
@@ -30,6 +31,7 @@ export function login({ user_name, user_pwd }){
 // 注册
 export function register({user_name, user_pwd, user_repwd}){
     console.log("action","注册");
+    console.log({user_name,user_pwd});
     if(!user_name || !user_pwd ){
         return error_msg("用户名密码必须要输入！");
     }
@@ -46,21 +48,6 @@ export function register({user_name, user_pwd, user_repwd}){
                     dispatch(error_msg(res.data.msg));
                 }
             })
-    }
-}
-// 编辑
-export function user_info_edit(change_data){
-    console.log("改变用户信息");
-    return {
-        type : EDIT,
-        change_data
-    }
-}
-// 关注用户
-export function user_care(uid){
-    console.log("我关注了");
-    return {
-        type : CARE,
     }
 }
 // 用户验证
@@ -81,5 +68,20 @@ export const clean_msg = () => {
     return {
         type : CLEAN_MSG,
         msg : ""
+    }
+}
+// 编辑
+export function user_info_edit(change_data){
+    console.log("改变用户信息",change_data);
+    return {
+        type : EDIT,
+        change_data
+    }
+}
+// 关注用户
+export function user_care(uid){
+    console.log("我关注了",uid);
+    return {
+        type : CARE,
     }
 }

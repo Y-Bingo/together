@@ -2,33 +2,40 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {NavBar,Icon,WhiteSpace,List} from 'antd-mobile';
-import UserCard from '../user_card';
-
 import {userInfoSearch} from '../../action/user.info.actions';
+
+import UserCard from '../user_card';
+import topicCard from '../card';
 
 class CommonList extends Component{
     constructor(props){
         super(props);
-        console.log(props);
         // const params = this.props.match.params;
         this.state = {
             uid : "",
             title : "",
-            type : ""
+            type : "",
+            renderItem: UserCard
         }
     }
     getTitle(title){
+        // 根据不同的页面选择要渲染的的列表项
         switch (title) {
             case "care":
-                return "我的关注的活动";
+                return "我关注的人";
             case "publish":
+                this.setState({renderItem:topicCard})
                 return "我发布过的活动";
             case "collect":
-                return "我的收藏";
+                this.setState({renderItem:topicCard})
+                return "我的收藏的活动";
             case "msg":
                 return "我的消息";   
             case "help":
-                return "帮助";     
+                return "帮助";
+            case "join" :
+                this.setState({renderItem:topicCard})
+                return "我参加的活动" ;
             default:
                 return "404"
         }
@@ -43,7 +50,10 @@ class CommonList extends Component{
         // this.props.userInfoSearch(this.this.state.uid);
     }
     render(){
-        const navbarTitle = this.props.history
+        console.log(this.state);
+        const navbarTitle = this.props.history;
+        // 在文章渲染处添加点击事件，使其进入文章详情列表
+        let RenderItem = this.state.renderItem ;
         return (
             <div>
                 <NavBar
@@ -56,7 +66,7 @@ class CommonList extends Component{
                 {
                     this.props.data.map((item, index) => 
                         (
-                            <UserCard key={index} {...item}/>
+                            <RenderItem key={index} {...item}/>
                         )
                     )
                 }

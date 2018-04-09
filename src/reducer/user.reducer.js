@@ -18,7 +18,7 @@ import * as ActionTypes from '../action/user.action';
 //     }
 // ]
 const initState = {
-    uid : "",
+    uid : "001",
     user_name : "YB",
     user_sex : "boy",
     user_head : "",
@@ -36,7 +36,9 @@ export default function user(state = initState, action) {
         case ActionTypes.AUTH_SUCCESS: //登录成功
             return { ...state, msg: "", ...action.payload }
         case ActionTypes.EDIT : // 编辑
-            return {...state,...orther};
+            let {change_data} = orther
+            console.log({...state,...change_data});
+            return {...state,...change_data};
         case ActionTypes.CARE: // 关注
             return {...state, ...orther };
         case ActionTypes.ERROR_MSG : // 错误信息显示

@@ -15,7 +15,7 @@ const actionCreator = {
     register,
     clean_msg
 };
-
+ 
 class Register extends Component {
      state = {
         hasError: false,
@@ -63,7 +63,7 @@ class Register extends Component {
                             error={this.state.hasError}
                             onErrorClick={this.onErrorClick}
                             onChange={(v) => this.onChange("user_name" ,v)}
-                            value={this.state.user_name}>邮箱</InputItem>
+                            value={this.state.user_name}>账号</InputItem>
                     </List>
                     <WhiteSpace size="lg"/>
                     <List>

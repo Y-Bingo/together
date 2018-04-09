@@ -43,7 +43,8 @@ class App extends Component {
                 <Route path="/user/care/:uid" component={ CommonList } /> {/*用户关注页*/}
                 <Route path="/user/publish/:uid" component={ CommonList } /> {/*用户推送*/}
                 <Route path="/user/help" component={ CommonList } /> {/*帮助*/}
-                <Route path="/user/msg/:uid" component= { CommonList} /> {/*帮助*/}
+                <Route path="/user/msg/:uid" component= { CommonList} /> {/*我的消息*/}
+                <Route path="/user/join/:uid" component={CommonList} />{/*我要参加的活动*/}
                 <Route path="/test" component={ Card } /> {/*测试*/}
               </Switch>
             </div>

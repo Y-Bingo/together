@@ -31,7 +31,21 @@ class Login extends Component {
             })
         }
     }
+    onErrorClick = () => {
+        if (this.state.hasError) {
+            Toast.info('请输入正确的邮箱地址！');
+        }
+    }
     onChange = (key, value) => {
+        if(key==='user_name'){
+            //  邮箱验证正则 
+            const reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/; 
+            if ( !reg.test(value) ) {    
+                    this.setState({ hasError: true,}); 
+            } else {  
+                this.setState({  hasError: false, }); 
+            }
+        }
         this.setState({
             [key] : value
         })
@@ -46,11 +60,14 @@ class Login extends Component {
                         <InputItem
                             className="input-border"
                             type="text"
+                            size="lg"
                             placeholder="input your Email"
-                            // error={this.state.hasError}
-                            // onErrorClick={this.onErrorClick}
+                            error={this.state.hasError}
+                            onErrorClick={this.onErrorClick}
+                            editable={true}
+                            clear={true}
                             onChange={(v) => this.onChange("user_name" ,v)}
-                            value={this.state.user_name}>邮箱</InputItem>
+                            value={this.state.user_name}>账号</InputItem>
                     </List>
                     <WhiteSpace size="lg"/>
                     <List>
