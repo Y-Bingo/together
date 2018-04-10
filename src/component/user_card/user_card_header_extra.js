@@ -3,7 +3,6 @@ import {Button} from 'antd-mobile';
 
 const Extra = (props) => {
     const {is_care , handleClick} = props
-    console.log(is_care);
     return (
         <div  onClick={handleClick}>
             { is_care 
@@ -11,5 +10,5 @@ const Extra = (props) => {
                 : <Button type="primary" size="small">关注</Button>  }
         </div>
     )
-}
+} 
 export default Extra;

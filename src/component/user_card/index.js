@@ -5,16 +5,15 @@ import Extra from './user_card_header_extra';
 import Thumb from './user_card_header_thumb';
 import {user_care} from '../../action/user.action'
 
-const UserCard = (data) => {
-    console.log("userCard",data);
+const UserCard = ({care_to}) => {
     return (
         <div style={{padding:"8px 0"}}>
             {/* <List> */}
                 <List.Item 
-                    thumb={<Thumb head={data.user_head}/>}
-                    extra={<Extra is_care={data.is_care} handleClick={user_care}/>}
+                    thumb={<Thumb head={care_to.user_head}/>}
+                    extra={<Extra is_care={care_to.is_care} handleClick={() => {user_care(care_to.uid)}}/>}
                 >
-                    <div style={{}}>{data.user_name}</div>
+                    <div style={{}}>{care_to.user_name}</div>
                     {/* <List.Item.Brief>{data.user_name}</List.Item.Brief> */}
                 </List.Item>
             {/* </List> */}

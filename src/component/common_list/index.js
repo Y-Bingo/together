@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {NavBar,Icon,WhiteSpace,List} from 'antd-mobile';
-import {userInfoSearch} from '../../action/user.info.actions';
 
+import axiox from 'axios';
 import UserCard from '../user_card';
 import topicCard from '../card';
+
+import {userInfoSearch,getData} from '../../action/user.info.actions';
 
 class CommonList extends Component{
     constructor(props){
@@ -15,7 +17,9 @@ class CommonList extends Component{
             uid : "",
             title : "",
             type : "",
-            renderItem: UserCard
+            dataUrl : "",
+            renderItem: UserCard,
+            data: []
         }
     }
     getTitle(title){
@@ -43,12 +47,16 @@ class CommonList extends Component{
     componentWillMount(){
         const url = this.props.match.url;
         const urlArr = url.split("/");
-        this.setState({title:this.getTitle(urlArr[2]),uid:urlArr[3]})
-        // const title
+        this.setState({
+            title:this.getTitle(urlArr[2]),
+            uid:urlArr[3],
+            url: `http://localhost:3000/data/user_info_${urlArr[2]}.json`
+        })
     }
     componentDidMount(){
-        // this.props.userInfoSearch(this.this.state.uid);
-    }
+        this.props.getData(this.state.url);
+        console.log(this.props);
+    }   
     render(){
         console.log(this.state);
         const navbarTitle = this.props.history;
@@ -64,9 +72,9 @@ class CommonList extends Component{
                 <WhiteSpace size="sm"/>
                 <List>
                 {
-                    this.props.data.map((item, index) => 
-                        (
-                            <RenderItem key={index} {...item}/>
+                    this.props.commonList.map((item, index) => 
+                        (       
+                            <RenderItem key={index} {...item} />
                         )
                     )
                 }
@@ -83,9 +91,9 @@ CommonList.defaultProps = {
     ]
 }
 
-const mapDispatchToProps = {userInfoSearch} ;
+const mapDispatchToProps = {getData} ;
 const mapStateToProps = (state) => ({
-    ...state.user
+    commonList: state.user_info.commonListData 
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommonList)

@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 export const LOGIN = "LOGIN";// 登录
@@ -78,9 +77,13 @@ export function user_info_edit(change_data){
         change_data
     }
 }
+
+export function get_user_care(user_from_uid){
+    console.log(user_from_uid);
+}
 // 关注用户
 export function user_care(uid){
-    console.log("我关注了",uid);
+    
     return {
         type : CARE,
     }

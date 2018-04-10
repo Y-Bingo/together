@@ -36,11 +36,11 @@ const style = {
     }
 }
 const LM = [ // 其他的登录方式
-    // {title : "",icon : ""},
+    {title : "",icon : "alpha"},
     {title : "QQ", icon:"qq"},
     {title : "微信", icon:"weixin"},
     {title : "微博", icon:"weibo"},
-    // {title : "", icon:""}
+    {title : "", icon:"alpha"}
 ];
 const myImg = src => <img src={require(`./img/${src.icon}.png`)} className="am-icon am-icon-lg" alt={src.title} />;
 // console.log(this.props);

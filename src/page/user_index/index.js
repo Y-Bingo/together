@@ -64,7 +64,7 @@ class UserIndex extends Component {
         }
     }
     componentWillReceiveProps(newProps){
-        console.log(newProps);
+        // console.log(newProps);
     }
     componentDidMount(){
         this.setState({

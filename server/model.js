@@ -102,6 +102,7 @@ const model = {
         care_to: { //被关注的人
             uid : Number,
             user_name : String ,//用户名
+            user_head : String // 用户头像
         }
     },
     // 收藏
