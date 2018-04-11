@@ -8,6 +8,8 @@ const Footer = (props)=>{
     const icon_collect = !is_collect ? "collection" : "collection-active";    
     const icon_join = !is_join ? "menber" : "menber" ;
     const icon_comment = "comment" ;
+
+    console.log("footer",good, collect, comment);
     return (
         <div className="card-footer">
             <div className="card-footer-btn" onClick={collect}>

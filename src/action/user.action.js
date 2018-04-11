@@ -4,7 +4,6 @@ export const LOGIN = "LOGIN";// 登录
 export const REGISTER = "REGISTER";//注册
 export const AUTH_SUCCESS = "AUTH_SUCCESS";// 验证成功 
 export const EDIT = "EDIT";//编辑
-export const CARE = "CARE";//关注
 export const ERROR_MSG = "ERROR_MSG";// 错误信息
 export const CLEAN_MSG = "CLEAN_MSG";// 清除信息
 
@@ -78,13 +77,3 @@ export function user_info_edit(change_data){
     }
 }
 
-export function get_user_care(user_from_uid){
-    console.log(user_from_uid);
-}
-// 关注用户
-export function user_care(uid){
-    
-    return {
-        type : CARE,
-    }
-}

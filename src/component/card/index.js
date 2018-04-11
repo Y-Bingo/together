@@ -15,7 +15,7 @@ import Extra from './card_header_extra';
 
 class DataCard extends Component{
     state = {
-        ...this.props.card_data
+        ...this.props
     }
     // 点赞
     good = (e) => {
@@ -23,7 +23,7 @@ class DataCard extends Component{
         this.props.good(this.state.is_good);
         this.setState({
             is_good : !this.state.is_good
-        })
+        });
     }
     // 收藏
     collect = () => {
@@ -38,19 +38,20 @@ class DataCard extends Component{
         this.props.history.push(`/comment/${this.state.tid}`);
     }
    render = ()=>{
+       console.log("topic_card",this.state);
         return (
             <div>
                 <Card>
                     <Card.Header
-                        title={"userName"}
+                        title={this.state.topic_title}
                         thumb={<Thumb />}
                         extra={<Extra handleClick={() => { console.log("extra onClick") }} />}
                     />
                     <Card.Body>
                         <div className="card-img"></div>
                         <div className="card-body-content">
-                            <h1>这是文章标题</h1>
-                            <p>这是文字秒速。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。</p>
+                            <h1>{this.state.topic_title}</h1>
+                            <p>{this.state.topic_dec}</p>
                         </div>
                     </Card.Body>
                     <Card.Footer

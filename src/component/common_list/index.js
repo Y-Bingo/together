@@ -50,15 +50,15 @@ class CommonList extends Component{
         this.setState({
             title:this.getTitle(urlArr[2]),
             uid:urlArr[3],
+            type: urlArr[2],
             url: `http://localhost:3000/data/user_info_${urlArr[2]}.json`
         })
     }
     componentDidMount(){
-        this.props.getData(this.state.url);
-        console.log(this.props);
+        this.props.getData(this.state.url,this.state.type);
     }   
     render(){
-        console.log(this.state);
+        console.log("listData" ,this.props.commonList);
         const navbarTitle = this.props.history;
         // 在文章渲染处添加点击事件，使其进入文章详情列表
         let RenderItem = this.state.renderItem ;
@@ -74,7 +74,7 @@ class CommonList extends Component{
                 {
                     this.props.commonList.map((item, index) => 
                         (       
-                            <RenderItem key={index} {...item} />
+                            <RenderItem key={index} {...item} history={this.props.history}/>
                         )
                     )
                 }
@@ -83,14 +83,6 @@ class CommonList extends Component{
         )
     }
 } 
-CommonList.defaultProps = {
-    data : [
-        {user_name : "one",is_care:false,user_head:"boy"},
-        { user_name: "two", is_care: true, user_head: "girl" },
-        { user_name: "three", is_care: true, user_head: "boy" }
-    ]
-}
-
 const mapDispatchToProps = {getData} ;
 const mapStateToProps = (state) => ({
     commonList: state.user_info.commonListData 

@@ -1,4 +1,5 @@
 import * as ActionTypes from '../action/user.info.actions';
+import { StateType } from 'rmc-tabs/lib/Tabs.base';
 
 const initState = {
     commonListData : [] ,// 公共模块的数据块
@@ -10,13 +11,16 @@ const initState = {
 }
  
 export default function user_info(state=initState,action){
-    const {type, data} = action;
+    const {type, data, ...others} = action;
     switch (type) {
         case ActionTypes.USER_INFO_SEARCH:
             return {...state} ;
         case ActionTypes.GET_DATA :
             console.log("getDATA",data);
             return {...state,commonListData:data}
+        case ActionTypes.CARE:
+            console.log("care",others);
+            return {...state}
         default:
             return state;
     }

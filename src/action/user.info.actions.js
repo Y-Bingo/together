@@ -20,15 +20,16 @@ export const userInfoSearch = (info_type,id) =>{
     }
 }
 // 获取用户关注的信息
-export function getData(url){ // 这个是当前用户的uid
+export function getData(url,type){ // 这个是当前用户的uid
     // 在这里请求数据
     return (dispatch) => {
         axios.get(url,{})
             .then( res => {
                 if (res) {
                     if(res.status === 200 ){
-                        let {care_data} = res.data ;// 取出数据
-                        dispatch({type : GET_DATA ,data : care_data.concat([])});
+                        let {data} = res ;// 取出数据
+                        console.log(type);
+                        dispatch({type : GET_DATA ,data :data[`${type}_data`].concat([])});
                     }else{
                         console.error("获取不到用户关注的的人的数据");
                     }
@@ -41,9 +42,13 @@ export function getData(url){ // 这个是当前用户的uid
 }
 // 关注用户
 export function userCare(uid){ // 这个uid是被关注的人的uid
-     
+    // 这个暂时不做了
+    // 问题： 不能dispatch改该事件
+    console.log(uid);
+    // 发送请求修改
+
     return {
         type : CARE,
-
+        uid : uid
     }
 }

@@ -39,8 +39,6 @@ export default function user(state = initState, action) {
             let {change_data} = orther
             console.log({...state,...change_data});
             return {...state,...change_data};
-        case ActionTypes.CARE: // 关注
-            return {...state, ...orther };
         case ActionTypes.ERROR_MSG : // 错误信息显示
             return {...state, ...orther };
         case ActionTypes.CLEAN_MSG :

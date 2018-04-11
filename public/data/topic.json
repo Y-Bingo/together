@@ -1,0 +1,116 @@
+{
+    "topic_list": [
+        {
+            "tid" : "t001",
+            "topic_title" : "一起去狩猎",
+            "topic_dec" : "内容是：准时开始去狩猎",
+            "topic_type" : ["狩猎","同人"],
+            "topic_from" : {
+                "uid":        "u001",
+                "user_name" : "我是u001", 
+                "user_head" : "boy",
+                "user_touch": "12341234"
+            },
+            "topic_face": ["儿童","大学生"], 
+            "topic_photo" : "photo1" ,
+            "topic_create_time" : "2018/04/2",
+            "topic_begin_time" : "2018/04/05",
+            "topic_during_time" :"5h",
+            "topic_end_time" : "2018/04/05 14:00",
+            "topic_place" : "一号大教室",
+            "topic_num" : 10,
+            "topic_menber" : [ 
+                {
+                    "uid": "u002", 
+                    "user_name": "我叫u002",
+                    "user_head": "girl"
+                },
+                {
+                    "uid": "u003", 
+                    "user_name": "我叫u004",
+                    "user_head": "boy"
+                }
+            ],
+            "topic_had_join" : 2,
+            "topic_money" :    0,
+            "topic_love" :     4,
+            "topic_collected" :2,
+            "topic_comments" : 1
+        },
+        {
+            "tid" : "t002",
+                "topic_title" : "搞事情",
+                "topic_dec" : "内容是： 就是去搞事情",
+                "topic_type" : ["搞事1","搞事"],
+                "topic_from" : {
+                    "uid":        "u003",
+                    "user_name" : "我是u003", 
+                    "user_head" : "girl",
+                    "user_touch": "12341234"
+                },
+                "topic_face": ["成年人","大学生"], 
+                "topic_photo" : "photo1" ,
+                "topic_create_time" : "2018/03/11",
+                "topic_begin_time" : "2018/04/05",
+                "topic_during_time" :"1d",
+                "topic_end_time" : "2018/04/04 14:00",
+                "topic_place" : "二号大教室",
+                "topic_num" : 10,
+                "topic_menber" : [ 
+                    {
+                        "uid": "u002", 
+                        "user_name": "我叫u002",
+                        "user_head": "girl"
+                    },
+                    {
+                        "uid": "u003", 
+                        "user_name": "我叫u004",
+                        "user_head": "boy"
+                    }
+                ],
+                "topic_had_join" : 6,
+                "topic_money" :    10,
+                "topic_love" :     15,
+                "topic_collected" :123,
+                "topic_comments" : 1
+        }
+
+    ],
+    "topic_des":{
+        "tid" : "t001",
+            "topic_title" : "一起去狩猎",
+            "topic_dec" : "内容是：准时开始去狩猎",
+            "topic_type" : ["狩猎","同人"],
+            "topic_from" : {
+                "uid":        "u001",
+                "user_name" : "我是u001", 
+                "user_head" : "boy",
+                "user_touch": "12341234"
+            },
+            "topic_face": ["儿童","大学生"], 
+            "topic_photo" : "photo1" ,
+            "topic_create_time" : "2018/04/2",
+            "topic_begin_time" : "2018/04/05",
+            "topic_during_time" :"5h",
+            "topic_end_time" : "2018/04/05 14:00",
+            "topic_place" : "一号大教室",
+            "topic_num" : 10,
+            "topic_menber" : [ 
+                {
+                    "uid": "u002", 
+                    "user_name": "我叫u002",
+                    "user_head": "girl"
+                },
+                {
+                    "uid": "u003", 
+                    "user_name": "我叫u004",
+                    "user_head": "boy"
+                }
+            ],
+            "topic_had_join" : 2,
+            "topic_money" :    0,
+            "topic_love" :     4,
+            "topic_collected" :2,
+            "topic_comments" : 1
+    }
+}
