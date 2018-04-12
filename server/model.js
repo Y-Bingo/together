@@ -52,7 +52,7 @@ const model = {
                 user_head: String, // 用户头像
             }
         ],
-        topic_had_join : {type:Number,default:0},//活动已经参与的人数
+        topic_had_join : [],// 该活动参加的人 // 用数组来存在用户ID，indexOf查询用户ID
         topic_money :    {type:String,defalut:"0元"},//活动预算
         topic_love :     {type:Number,default:0},//被点赞数
         topic_collected :{type:Number,default:0},//被收藏数
@@ -97,7 +97,7 @@ const model = {
         care_id : {type: Number, require:true}, // 关注ID
         care_from : {
             uid : Number,// 用户ID
-            user_name: String,// 用户名
+            user_name: String,// 用户名 
         }, //关注发起人
         care_to: { //被关注的人
             uid : Number,

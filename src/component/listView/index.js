@@ -10,7 +10,7 @@ import {
 import DataCard from '../card';
 import './listView.css';
 import { loading,  } from '../../action/app.action';
-import { loadMore } from "../../action/topic.action";
+import { loadTopic } from "../../action/topic.action";
 
 
 // const NUM_ROWS = 5;//每页渲染的个数
@@ -34,6 +34,7 @@ class List extends Component {
             refreshing: false, // 显示刷新状态
             topic_data : [] // 数据
         };
+        
     }
     genData(pIndex= 0){
         const NUM_ROWS = this.state.NUM_ROWS;
@@ -51,16 +52,8 @@ class List extends Component {
             });
         }
     }
-    // shouldComponentUpdate(nextProps,nextState){
-    // }
-    componentDidUpdate() {
-        // if (this.state.useBodyScroll) {
-        //     document.body.style.overflow = 'auto';
-        // } else {
-        //     document.body.style.overflow = 'hidden';
-        // }
-    }
     componentDidMount() {
+        this.props.loadTopic();
         const hei = this.state.height - ReactDOM.findDOMNode(this.lv).offsetTop;
         setTimeout(() => {
             this.rData = this.genData();
@@ -70,6 +63,7 @@ class List extends Component {
                 isLoading: false,
             });
         }, 1500);
+        console.log( "this.state.topic_data",this.state.topic_data);
     }
 
     // 刷新回调函数
@@ -97,7 +91,7 @@ class List extends Component {
         }
         // console.log('reach end', event);
         this.setState({isLoading:true});
-        this.props.loadMore();
+        this.props.loadTopic();
         setTimeout(() => {
             this.setState({pageIndex: ++this.state.pageIndex})
             this.rData = [...this.rData, ...this.genData(this.state.pageIndex)];
@@ -181,7 +175,7 @@ class List extends Component {
 const mapStateToProps = (state) => ({
     topic_data : state.topic_data
 })
-const mapDispatchToProps = {loading, loadMore};
+const mapDispatchToProps = {loading, loadTopic};
 // const mapStateToProps = (state) =>{
 //     return {
 //         ...state.app,

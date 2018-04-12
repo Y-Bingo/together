@@ -7,10 +7,15 @@ import{
 } from "antd-mobile"
 import ListView from '../component/listView';
 
+import {loadTopic} from "../action/topic.action";
+
 // 这是一个长列表
 class Square extends Component{
     constructor(props) {
         super(props);
+    }
+    componentDidMount(){
+        this.props.loadTopic();
     }
     render = ()=>{ 
         return(
@@ -30,7 +35,7 @@ class Square extends Component{
     }
 }
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {loadTopic};
 const mapStateToProps = (state) => {
     return (
         {
