@@ -17,7 +17,8 @@ class Square extends Component{
     componentDidMount(){
         this.props.loadTopic();
     }
-    render = ()=>{ 
+    render = ()=>{
+        console.log(this.props.topic);
         return(
             <div>
                 <NavBar
@@ -29,17 +30,19 @@ class Square extends Component{
                         <Icon key="1" type="ellipsis" />,
                     ]}
                 >搜索你想看的</NavBar>
-               <ListView {...this.props}/>
+               <ListView  topic_data={this.props.topic.topic_data} history={this.props.history}/>
             </div>
         )
     }
 }
 
 const mapDispatchToProps = {loadTopic};
+// props : app , topic
 const mapStateToProps = (state) => {
     return (
         {
-            ...state.app,
+            app : state.app,
+            topic: state.topic
         }
     );
 }

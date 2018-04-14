@@ -14,7 +14,6 @@ const initState = {
     topic_data : []
 };
 
-
 export default function topic(state = initState, action) {
     const {type,...orthers} = action;
     switch (type) {
@@ -25,8 +24,8 @@ export default function topic(state = initState, action) {
         case LOADTOPIC : {
             const newData = orthers.data;
             const oldData = state.topic_data;
-            console.log(newData.concat(oldData));
-            return { ...state, topic_data: newData.concat(oldData)};
+            console.log("在这里合并新旧主题的信息", oldData.concat(newData) );
+            return { ...state, topic_data: oldData.concat(newData) };
         }
         default:
             return state;
@@ -59,7 +58,9 @@ export function loadTopic() {
                     if (res) {
                         if(res.status === 200 ){
                             let {data} = res ;// 取出数据
+
                             dispatch({type : LOADTOPIC ,data :data["topic_data"].concat([])});
+                            console.log("在这里获取到了主题信息",data["topic_data"]);
                         }else{
                             console.error("获取不到用户关注的的人的数据");
                         }

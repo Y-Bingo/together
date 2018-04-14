@@ -17,6 +17,7 @@ class DataCard extends Component{
     state = {
         ...this.props
     }
+
     // 进入详情页
     _dec = () => {
         this.props.history.push(`/topic/des/${this.state.tid}`);
@@ -44,6 +45,7 @@ class DataCard extends Component{
         this.props.history.push(`/comment/${this.state.tid}`);
     }
    render = ()=>{
+
         return (
             <div>
                 <Card >
