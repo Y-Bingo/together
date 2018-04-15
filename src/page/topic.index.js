@@ -7,16 +7,13 @@ import {
     Link
   } from 'react-router-dom'
 import TopicPublish from "./topic.publish";
+import UserIndex from './user_index';
 function Concern() {
     return (
         <div>concern</div>
     )
 }
-function Me() {
-    return (
-        <div>me</div>
-    )
-}
+
 // 这是主页，主要包含切换
 class TopIndex extends Component {
     constructor(props) {
@@ -56,7 +53,7 @@ class TopIndex extends Component {
                 icon: "https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg",
                 selectIcon: "https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg",
                 badge: "",
-                component : Me,
+                component : UserIndex,
                 path : "/me"
             }
         ]

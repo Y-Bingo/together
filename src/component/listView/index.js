@@ -12,6 +12,8 @@ import './listView.css';
 import { loading,  } from '../../action/app.action';
 import { loadTopic } from "../../action/topic.action";
 
+let pageIndex = 0 ;
+const  NUM_ROWS = 2; //当前每次渲染条目 
 class List extends Component {
     constructor(props) { 
         super(props);
@@ -20,19 +22,19 @@ class List extends Component {
         });
         // 没渲染的个数应该是后台第一次请求回来后的数据的一半
         this.state = {
-            NUM_ROWS : 2, //当前每次渲染条目 
-            pageIndex : 0, // 当前页数
+            
+           
             dataSource,
             isLoading: this.props.is_loading, // 是否在更新中
             height: document.documentElement.clientHeight, //设置高度
+            hasMore:true ,
             useBodyScroll: false, // 不适用body
             refreshing: false, // 显示刷新状态
             topic_data : [] ,// 数据,
-            index: 0  // 当前的列表项索引
         };
     }
     genData(pIndex= 0){
-        const NUM_ROWS = this.state.NUM_ROWS; // 每次渲染的条目数
+        // const NUM_ROWS = this.state.NUM_ROWS; // 每次渲染的条目数
         const pageIndex = this.state.pageIndex; // 当前页数
         const dataArr = []; // 数据id数组
         for (let i = 0; i < NUM_ROWS; i++) {
@@ -96,18 +98,18 @@ class List extends Component {
    
             return;
         }
-        // console.log('reach end', event);
+        console.log('reach end', event);
         this.setState({isLoading:true});
         // 获取更多的数据
         this.props.loadTopic();
         setTimeout(() => {
-            this.setState({pageIndex: ++this.state.pageIndex})
-            this.rData = [...this.rData, ...this.genData(this.state.pageIndex)];
+            
+            this.rData = [...this.rData, ...this.genData(++pageIndex)];
             console.log("this.rData",this.rData);
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(this.rData),
                 isLoading : false
-            });
+            }); 
         }, 1000);
     };
     render = () => {
@@ -129,15 +131,15 @@ class List extends Component {
         );
 
         // let index = topic_data.length; // 一共有多少个数据？；
-        let index = this.state.index ;
+        let index = this.state.topic_data.length - 1 ;
         //当前已经渲染条目数
-        const nowRow = (this.state.pageIndex + 1) * this.state.NUM_ROWS
+        // const nowRow = (this.state.pageIndex + 1) * this.state.NUM_ROWS
         const row = (rowData, sectionID, rowID) => {
-            if (index < nowRow) {
+            if (index < 0) {
                 index = this.state.topic_data.length - 1;
             }
             
-            const card_data = this.state.topic_data[--index];
+            const card_data = this.state.topic_data[index--];
             console.log("row", index, card_data); 
             return (
                 <div key={rowID} style={{width:"100%"}}>
@@ -150,6 +152,7 @@ class List extends Component {
                     <ListView
                         key={this.state.useBodyScroll ? '0' : '1'}
                         ref={el => this.lv = el}
+                        initialListSize={2} // 自定组件初始化的时候渲染多少个组件
                         // 渲染的资源 唯一标识数组
                         dataSource={this.state.dataSource}
                         // 渲染的头部
@@ -172,8 +175,9 @@ class List extends Component {
                             refreshing={this.state.refreshing}
                             onRefresh={this.onRefresh}
                         />}
+                        scrollEventThrottle={30}
                         onEndReached={this.onEndReached}
-                        onEndReachedThreshold={25}
+                        onEndReachedThreshold={20}
                         // 每次事件循环渲染的行数
                         pageSize={5}                   
                     />

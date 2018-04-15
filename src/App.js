@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import { Route, Switch, BrowserRouter} from 'react-router-dom';
  
 import store from './store';
-
+// import "./http.config";// 引入http请求监听器
 // 应用
 import LeadingPage from './page/lead_page/lead'; /* 引导页面 */
 import LogOrReg from './page/L&R'; /* 登录注册页面 */

@@ -8,7 +8,7 @@ import Footer from './topic_dec_footer';
 import ExtraMenber from './extra_join_menber';
 
 // 主题actions
-import { good, collect, join } from '../../action/topic.action';
+import { good, collect, join , intoDec } from '../../action/topic.action';
 const Item = List.Item;
 
 class TopicDes extends Component {
@@ -22,9 +22,16 @@ class TopicDes extends Component {
         }
     }
     componentWillMount = () => {
+        let tid = this.props.match.params.tid
         this.setState({
-            tid : this.props.match.params.tid
+            tid : tid
         })
+    }
+    componentDidMount(){
+        this.props.intoDec(this.state.tid);
+        // () => {
+        //     console.log("组件加载完成，开始加载数据");
+        // }
     }
     // 点击事件good,collect,comment
     good = (e) => {
@@ -42,15 +49,12 @@ class TopicDes extends Component {
         })
     }
     comment = () => {
-        console.log("comment");
-        console.log(this.props.history);
         this.props.history.push(`/comment/${this.state.tid}`);
     }
     join = () =>{
         console.log("join");
     }
     render() {
-        console.log("主题详情页");
         const icon_good = !this.state.is_good ? "good" : "good-active";
         const icon_collect = !this.state.is_collect ? "collection" : "collection-active";
         const icon_join = !this.state.is_join ? "menber" : "menber";
@@ -162,13 +166,13 @@ class TopicDes extends Component {
 
 const mapStateToProps =  (state) => (
     { 
-        topicDesData : state.des
+        topicDesData : state.topic.topic_dec
     }
 )
 
 const mapDispatchToProps = () => (
     {
-        good, collect, join 
+        good, collect, join ,intoDec
     }
 )
 
