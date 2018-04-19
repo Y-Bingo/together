@@ -112,7 +112,7 @@ export function loadTopic() {
         }
     }  
 }
-
+// 加载详情页
 export function intoDec(tid, callback) {
     // let tid = tid ;
     let url = "http://localhost:3000/data/topic.json" ;

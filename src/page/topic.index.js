@@ -29,28 +29,28 @@ class TopIndex extends Component {
         const tabs = [
             {
                 title: "广场",
-                icon: "https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg",
+                icon: "../localImg/square.png",
                 selectIcon: "https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg",
                 badge: "",
                 component : Square,
                 path : "/square"
             }, {
                 title: "关注",
-                icon: "https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg",
+                icon: "../localImg/push.png",
                 selectIcon: "https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg",
                 badge: "",
                 component : Concern,
                 path : "/concern"
             }, {
                 title: '发布',
-                icon: "https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg",
+                icon: "../localImg/publish.png",
                 selectIcon: "https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg",
                 badge: "",
                 component: TopicPublish,
                 path: "/publish"
             }, {
                 title: "我的",
-                icon: "https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg",
+                icon: "../localImg/me.png",
                 selectIcon: "https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg",
                 badge: "",
                 component : UserIndex,
@@ -67,7 +67,7 @@ class TopIndex extends Component {
                             title={item.title}
                             key={item.title}
                             icon={< div style = {{ width: '22px', height: '22px', background: `url(${item.icon}) center center / 21px 21px no-repeat` }}/>}
-                            selectedIcon={< div style = {{ width: '30px', height: '30px', background: `url(${item.selectIcon}) center center / 21px 21px no-repeat` }}/>}
+                            selectedIcon={< div style={{ width: '70px', height: '30px', background: `#e3e3e3 url(${item.icon}) center center / 21px 21px no-repeat` }}/>}
                             selected={this.state.selectedTab === item.title}
                             badge={item.badge}
                             onPress={() => {

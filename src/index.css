@@ -189,5 +189,20 @@ img{
 .comment-pulish:active {
   background-color: #d8d7d8;
 } */
+.my-icon-md {
+  width: 22px;
+  height: 22px;
+}
 
+.my-icon {
+  fill: currentColor;
+  background-size: cover;
+  width: 22px;
+  height: 22px;
+}
+
+.my-tabs * {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
 

@@ -5,12 +5,11 @@ const Extra = (props) => {
     // const display = ! is_care ? 
     return (
         <div className="btn-add" onClick={handleClick}>
-            <a>
-                <div className="btn-add-img">
-                    <img src={require("./img/add.png")} alt="concern" />
-                </div>
-                <span>关注</span>
-            </a>
+           {
+               is_care ? 
+                    <img src={require("../../localImg/care.png")} className="my-icon-md my-icon" /> :
+                    <img src={require("../../localImg/uncare.png")} className="my-icon-md my-icon" />
+            }
         </div>
     )
 }
