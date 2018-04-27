@@ -8,6 +8,7 @@ const app = express();
  
 app.use(cookieParser());
 app.use(bodyParser.json());
+app.use('/scrap',require('./scrap'));// 使用爬虫
 app.use('/user', require('./user'));//使用有关/user的请求
 app.use('/topic',require('./topic'));//使用topic的相关请求
 app.use('/comment', require('./comment'));//使用comment的相关请求
@@ -19,5 +20,7 @@ app.get('/',function(req,res){
 
 
 app.listen(9527,function(){
+    console.log("\n-------------分割线---------------\n")    
     console.log("Node server listen 9527!");
+    console.log("\n-------------分割线---------------\n")
 })

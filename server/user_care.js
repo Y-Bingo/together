@@ -1,7 +1,7 @@
 const express = require('express');
 const Router = express.Router();
 const Model = require('./model'); //这是一个modules对象
-const UserCare = Model.getModel("user_care");//建立模型
+const UserCare = Model.getModel("care");//建立模型
 
 // 关注
 Router.post('/care',(req,res,err) => {

@@ -55,13 +55,12 @@ class List extends Component {
         }
     }
     componentDidMount() {
-        // this.props.loadTopic();
         const height = this.state.height - ReactDOM.findDOMNode(this.lv).offsetTop;
         
         setTimeout(() => {
             this.rData = this.genData();
             let NUM_ROWS = this.props.topic_data.length;
-            this.setState({
+            this.setState({ 
                 NUM_ROWS: NUM_ROWS,
 
                 dataSource: this.state.dataSource.cloneWithRows(this.genData()),
