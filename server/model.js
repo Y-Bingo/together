@@ -35,7 +35,6 @@ const model = {
             uid:        {type:String, require:true},// 用户ID
             user_name : {type: String ,require:true}, // 用户名 
             user_head : {type : String ,require:true},// 用户头像
-            user_touch: { type: String, default: "你没有留下任何联系方式" },//用户的联系方式
         },
         topic_face: {type: String ,default:["All"]}, // 活动主要面向人群
         topic_photo : {type:Array} ,//活动的活动图片,
@@ -53,13 +52,13 @@ const model = {
             }
         ],
         topic_had_join : [],// 该活动参加的人 // 用数组来存在用户ID，indexOf查询用户ID
-        topic_money :    {type:String,defalut:"0元"},//活动预算
+        topic_money :    {type:String,defalut:"free"},//活动预算
         topic_love :     {type:Number,default:0},//被点赞数
         topic_collected :{type:Number,default:0},//被收藏数
         topic_comments : {type:Number,default:0},//被评论数
     },
     // 活动类型
-    tap :{ 
+    topic_type :{ 
         tap_id : Number , // 类型ID
         tap_type: String  // 类型名
     },
