@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');// post请求的中间件
 const cookieParser = require('cookie-parser'); // cookei中间件
 const io = require('socket.io');
-
+const c = require("./colorConfig");
 
 const app = express();
  
@@ -20,7 +20,7 @@ app.get('/',function(req,res){
 
 
 app.listen(9527,function(){
-    console.log("\n-------------分割线---------------\n")    
+    console.log(c.log("\n-------------分割线---------------\n"))    
     console.log("Node server listen 9527!");
-    console.log("\n-------------分割线---------------\n")
+    console.log(c.log("\n-------------分割线---------------\n"))
 })

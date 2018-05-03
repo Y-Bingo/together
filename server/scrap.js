@@ -1,8 +1,14 @@
+// require('./colorConfig');// 引入彩色输出配置
+
 const express =require("express");
 const superagent = require("superagent");
 const cheerio = require("cheerio");
 const promise = require("bluebird");
-const Model = require('./model'); //这是一个modules对象
+
+const c = require('./colorConfig'); // 控制台彩色模块
+
+var csv = require('node-csv').createParser();   
+
 
 const Router = express.Router();
 //获得文件系统模块  
@@ -10,82 +16,56 @@ const fs = require('fs');
 //基于Node.js解析excel文件数据及生成excel文件，仅支持xlsx格式文件；  
 const xlsx = require('node-xlsx');
 
+var page_num = 3;
+var pages = [] ;
 Router.get('/',(req, res)=>{
     res.send( getUrl() );
     res.end(); 
 });
 
 Router.get("/getIndex", (req,res)=>{
-    let url = getUrl();
-    console.log(url);
-    superagent.get(url)
-              .set('Content-Type', 'application/json')
-              .end( (err, response) => {
-                 if (err) {
-                     res.send(err);
-                 }else{
-                     let text = response.text ;
-                     let resp = JSON.parse(text);
-                     let data = resp.data.data ;
-                    
-                  
-                    
-                    //  写入数据, 文件不存在会自动创建
-                    //  fs.writeFile(__dirname + '/test' + '.json', JSON.stringify(data.data), function (err) {
-                    //      if (err) throw err;
-                    //      console.log('写入完成');
-                    //  });
-                    //  res.send("请求成功");
-                 }
-                 res.end();
-              })
+    for(var i =1; i <= page_num ;i++ ){
+        getJSON(i)
+        // .then( ()=>{
+        //     console.log(c.log("第"+i+"个数据采集完了"));
+        //     pages.push("page"+i);
+        // });
+    }
+    res.send("");
 })
 
 Router.get("/detail", (req,res) => {
-    fs.readFile(__dirname + '/test' + '.json', "utf8",(err,data) =>{
-        if(err) throw err ;
-        // res.send(data);
-        let json = JSON.parse(data) ;
-        let topics = json;
-        // console.log();
-        let id = 6358403;
-        let topic = {} ;
-        superagent.get("http://www.doyouhike.net/event/yueban/detail/6358403")
-                   .end((err, response) => {
-                let html = response.text;
-                var $ = cheerio.load(html);
-                topic.dec = $(".event-ct").html();
-                $("#cmtList").find("li").each( (item)=>{
-                    console.log("li",item.html());
-                });
-        
-                       res.send($("#cmtList").html());
-        })
-        // res.send(topics)
-        console.log(topic);
-    })
+    let Url= [];
+    // promise.all( )
+    for (var i = 1; i < page_num; i++) {
+        console.log(c.log("开始提取网站")) ;
+        (readFile("page" + i,"json").then(page => {
+            // map数据
+            page.forEach((item) => {
+                let url = `http://www.doyouhike.net/event/yueban/detail/${item.node_id}`;
+                console.log("page" + i, c.success(url))
+                Url.push(url)
+            })
+        }))(i);
+    }
+    res.send(Url);
+})
+
+Router.get("/csv",(req, res)=>{
+    csv.mapFile(`${__dirname}/data/test.csv`, function (err, data) {
+
+        console.log(data); //Outputs: [ { id: '1', user: 'foo', pass: 'bar' } ]
+        res.send(data);
+    });
 })
 
 
-module.exports =  Router ;
 
 function matchMyData(data){
     let topic_data = {} ;
     let user_data = {} ;
     let tap_data = {} ;
     return writeFile("topic");
-}
-
-function writeFile(name) { // 写入文件
-    let path = __dirname + "/data/" + name + ".json" ;
-    let oldData = [] ;
-    if( fs.existsSync(path) ) {
-        let result = fs.readFileSync(path, "utf8")
-        oldData = JSON.parse(result);
-    }
-    // let collection =  Model.getModel(name);
-    // collection.insert(oldData) ;
-    return oldData ;
 }
 
 function matchTopic(data) {
@@ -152,31 +132,20 @@ function matchCollection(data) {
 
 }
 
-function getUrl(date = 3, page_num = 1) {
-
+function getUrl( page_num = 1,date=5) {
+    // let date= 3;
     let keyword = null;
     let has_fd = 0;
-    let city_id = 440100;
+    let city_id = null;
     let tag_id = null;
-    let search_type = 2;
+    let search_type = 1;
     let free_type = "none";
     let page_limt = 30;
     let params = { date, keyword, page_num, has_fd, city_id, tag_id, search_type, page_num, free_type, page_limt }
     let baseUrl = ["http://www.doyouhike.net/event/yueban/index_list"];
-    // let paramsArr = {
-    //     date: 3 ,
-    //     key_word: null ,
-    //     page_num: 1 ,
-    //     has_fd: 0 ,
-    //     city_id: 440100 ,
-    //     tag_id: null ,
-    //     search_type: 2 ,
-    //     page_limit: 30 ,
-    //     fee_type: "none"
-    // };
+
     let paramsArr = [];
     for (i in params) {
-        console.log(i);
         paramsArr.push(`${i}=${params[i]}`);
     }
     return baseUrl.concat(paramsArr).join("?");
@@ -185,3 +154,59 @@ function getUrl(date = 3, page_num = 1) {
         params: paramsArr
     }
 }
+// 获取详情页的JSON
+function getJSON(page_num,date) {
+    let url = getUrl(page_num, date);
+    return new Promise( (resovle, reject) =>{
+
+  
+    superagent.get(url).set('Content-Type', 'application/json')
+        .end((err, response) => {
+            if (err) {
+                console.log(c.error("请求失败", err))
+            } else {
+                let text = response.text;
+                let resp = JSON.parse(text);
+                let data = resp.data.data; 
+                writeFile("page"+page_num, data);
+            }
+     })
+    })
+}
+
+function writeFile(name,newData) { // json
+    let path = __dirname + '/data/' + name + '.json';
+    let oldData = [];
+    if (fs.existsSync(path)) {
+        let result = fs.readFileSync(path, "utf8");
+        oldData = JSON.parse(result);
+    }
+    let DATA = oldData.concat(newData);
+    fs.writeFile(path, JSON.stringify(DATA), function (err) {
+        if (err) {
+            console.log(c.error(`读取${name}操作失败`, err))
+            throw new Error(err) ;
+        };
+        console.log(c.success('写入完成'));
+    });
+}
+
+function readFile(name,type) { //读取文件 jSON
+    let path = __dirname + '/data/' + name + '.' + type;
+    console.log(c.warn("开始读取文件"))
+    return new Promise( (resolve,reject) =>{
+        fs.readFile(path, (err, data) => {
+            if (err) {
+                console.log(c.error(`读取${name}操作失败`, err))
+                reject(err);
+            };
+            // res.send(data);
+            let array = JSON.parse(data);
+            resolve(array)
+        })
+    } )
+}
+
+
+
+module.exports = Router;
