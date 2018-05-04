@@ -82,7 +82,7 @@ Router.post('/update',function(req,res){
 Router.get('/info',function(req,res){
     console.log("server", "user-info");
     // console.json(req);
-    const {user_id} = req.cookies ;
+    const {user_id} = req.cookies ; // 重cookies提取用户ID
     if(!user_id){
         return res.json({code:1});
     }else{
