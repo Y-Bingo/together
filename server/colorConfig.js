@@ -8,7 +8,6 @@ var info = color.skyblue;
 var sig = color.yellow.bold.underline;
 var log = color.blue_b;
 
-console.log( error("test") )
 module.exports = {
     error,warn,notice,success,info,sig,log
 }

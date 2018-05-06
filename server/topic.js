@@ -8,8 +8,9 @@ Router.get('/', (req, res , err) => {
     res.send('这是topic');
 })
 // 进入详情页
-Router.get('/topic/des/:tid', (req,res, err) => {
-    topic.find({ tid }, (err, doc) => {
+Router.get('/des/:tid' , (req,res, err) => {
+    var tid = req.params.tid
+    topic.find ({ tid }, (err, doc) => {
         if (doc) {
             return res.json({ code: 1, data: doc });
         }
@@ -19,14 +20,14 @@ Router.get('/topic/des/:tid', (req,res, err) => {
 // 编辑 post
 Router.post("/topic/edit/:tid" ,(req,res) => {
     const {} = req.body ; // 提取请求的元素
-});
+}); 
 // 删除topic 
 Router.get("/topic/del/:tid", (req,res, err)=> {
-
+    
 });
 //参加该活动
-Router.get("/topic/join" , (req, res, err) => {
-
+Router.get("/topic/join/:tid" , (req, res, err) => {
+    
 });
 
 module.exports = Router; 

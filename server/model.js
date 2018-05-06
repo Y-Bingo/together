@@ -36,22 +36,25 @@ const model = {
             user_name : {type: String ,require:true}, // 用户名 
             user_head : {type : String ,require:true},// 用户头像
         },
-        topic_face: {type: String ,default:["All"]}, // 活动主要面向人群
         topic_photo : {type:Array} ,//活动的活动图片,
         topic_create_time : {type:Date,default:Date.now},//活动的开始时间
         topic_begin_time : {type:Date,default:Date.now},//活动的开始时间
         topic_during_time : {type:String,default:"1h"},//活动持续时间
         topic_end_time : {type:Date,require:true},//活动报名的截止时间
-        topic_place : {type:String,default:null},//活动的地点，
+        topic_place : {
+            from: String , // 起始地点
+            to :String  // 结束地点
+        },//活动的地点，
         topic_num : {type: Number,defalult : 0},// 活动预计参加人数
         topic_menber : [ // 活动参加成员
             {
                 uid: Number, // 用户ID
                 user_name: String, // 用户名
                 user_head: String, // 用户头像
+                join_date: Date, // 参见活动的时间
             }
         ],
-        topic_had_join : [],// 该活动参加的人 // 用数组来存在用户ID，indexOf查询用户ID
+        // topic_had_join : [],// 该活动参加的人 // 用数组来存在用户ID，indexOf查询用户ID
         topic_money :    {type:String,defalut:"free"},//活动预算
         topic_love :     {type:Number,default:0},//被点赞数
         topic_collected :{type:Number,default:0},//被收藏数
