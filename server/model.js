@@ -13,12 +13,9 @@ const model = {
         user_sex : {type:String, enum:["boy","girl"]},//性别
         user_city : {type:String, default:"广东工业大学"},//所在城市
         user_head : {type :String, default:'boy'}, // 头像
-        user_touch : {//用户的联系方式
-            QQ : {type:String, default: ""},
-            tel: {type:Number, default: 110}
-        },
+        user_touch : String,
         user_signatrue : {type:String, default:"这个用户很懒，什么都没留下"},//用户签名
-        user_love_topic : [//用户喜爱的活动类型
+        user_love_type : [//用户喜爱的活动类型
             {
                 topic_type : String // 类型
             }
@@ -30,7 +27,12 @@ const model = {
         tid : {"type":Number,require: true}, // 这是一个主题id
         topic_title : {type:String,require:true},//活动标题
         topic_dec : {type:String,require:true},//活动内容,
-        topic_type : {topic:Array,default:["ALL"]},//活动类型，判断这是哪种类型的活动
+        topic_type : [
+            {
+                tap_id: Number, // 类型ID
+                tap_type: String  // 类型名
+             }
+        ],//活动类型，判断这是哪种类型的活动
         topic_from : {//活动发起人，
             uid:        {type:String, require:true},// 用户ID
             user_name : {type: String ,require:true}, // 用户名 
@@ -55,7 +57,7 @@ const model = {
             }
         ],
         // topic_had_join : [],// 该活动参加的人 // 用数组来存在用户ID，indexOf查询用户ID
-        topic_money :    {type:String,defalut:"free"},//活动预算
+        // topic_money :    {type:String,defalut:"free"},//活动预算
         topic_love :     {type:Number,default:0},//被点赞数
         topic_collected :{type:Number,default:0},//被收藏数
         topic_comments : {type:Number,default:0},//被评论数
@@ -63,7 +65,7 @@ const model = {
     // 活动类型
     topic_type :{ 
         tap_id : Number , // 类型ID
-        tap_type: String  // 类型名
+        tap_name: String  // 类型名
     },
     // 评论
     comment : {
@@ -133,9 +135,9 @@ const model = {
 }
 
 //批量注册模型
-for(m in model){
+for(let m in model){
     let schema = new mongoose.Schema(model[m])
-    mongoose.model(m , schema);
+    mongoose.model(m , schema,m);
 }
 
 module.exports = {

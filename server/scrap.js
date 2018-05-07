@@ -1,3 +1,5 @@
+// import { write } from "fs/promises";
+
 // require('./colorConfig');// 引入彩色输出配置
 
 const express = require("express");
@@ -48,168 +50,62 @@ Router.get("/detail", (req, res) => {
             id: [],
             url: []
         };
-
         readFs.push(readFile(i, "json"));
-        // readFile(page_num, "json").then((data) => {
-        //     data.forEach(item => {
-        //         let url_d = `http://www.doyouhike.net/event/yueban/detail/${item.node_id}`;
-        //         let url_m = `http://www.doyouhike.net/event/yueban/get_event_members?nodeId=${item.node_id}&userId=&page_num=1&page_limit=16`;;
-        //         let url_c = {
-        //             url: "http://www.doyouhike.net/event/yueban/get_more_comment",
-        //             from_data: {
-        //                 nodeId: item.node_id,
-        //                 userId: null,
-        //                 page: 1,
-        //                 commentId: 0,
-        //                 page_size: 10,
-        //                 order_type: 2,
-        //             }
-        //         }
-        //         superagent.get(url_d) // 请求详细的内容
-        //             .end((err, response) => {
-        //                 if (err) {
-        //                     res.send(err);
-        //                     return;
-        //                 }
-        //                 let $ = cheerio.load(response.text, {
-        //                     decodeEntities: false
-        //                 });
-        //                 //   console.log(res.text);
-        //                 data.dec = $(".event-ct").html(); // 详细内容
-        //                 data.love = $("#like_num").html() * 1; // 点赞
-        //                 data.comments = $(".cmtNum").html() * 1; // 评论
-
-        //                 data.members = [];
-        //                 res.json(matchTopic(topic));
-        //             })
-        //     });
-
-        // })
     }
     Promise.all(readFs).then(result => {
         let task = [] ;
 
         let array_t = [].concat.apply([], result);
         array_t = array_t.map(topic => {
-            array_u.indexOf(topic.leader_user) > -1 ? "" : array_u.push(matchUser(topic.leader_user));
-            array_T.indexOf(topic.tags) > -1 ? "" : array_T.push(topic.tags);
+            if( JSON.stringify(array_u).indexOf(JSON.stringify(topic.leader_user)) <= -1 ) {array_u.push(matchUser(topic.leader_user)) };
+            if( JSON.stringify(array_T).indexOf(JSON.stringify(topic.tags[0])) <= -1 ) { array_T.push(...topic.tags) };
             task.push(getMore(topic));
             // return matchTopic(topic);
             return topic ;
         })
+        // writeFile('topicD',array_t,'json',()=>{
+        //     writeFile("tags",array_T,'json',()=>{
+        //         writeFile("user",array_u,'json',()=>{res.send("wancheng")});
+        //     })
+        // })
         // res.send(array_t);
         Promise.all(task).then( result2 => {
-            console.log(array_u);
-            res.send(result2);
+            let idArray = [];
+            let topic = [].concat.apply([],result2).map(item=>{
+                idArray.push(item.node_id);
+                return matchTopic(item) ;
+
+            })
+            writeFile("All",topic, "json",()=>{
+                writeFile("ID", idArray, "json",()=>{
+                    res.send(topic);
+                });     
+            });
+                   
         }).catch( err => {
             console.log(err);
         })
-        Promise.all()
+        // Promise.all()
         // 爬取评论
     })
 })
 Router.get("/comment", (req, res) => {
-    let id = 6374444
-    let url = `http://www.doyouhike.net/event/yueban/get_event_members?nodeId=${id}&userId=&page_num=1&page_limit=16`;
-    let task = [];
-    task.push(superagent.get(url).set('Content-Type', 'application/json'));
-    // superagent.get(url).set('Content-Type', 'application/json')
-    //     .end((err, response) => {
-    //         response = JSON.parse(response.data.text);
-    //         let user = response.data.menber_list.map(item => matchUser(item))
-    //         res.json(user)
-    //     })
-    // Promise.all(task).then((task_r) => {
-    //     // console.log(err);
-    //     // console.log(JSON.parse(response.req) )
-    //     // console.log(response)
-    //     task_r.forEach(response => {
-    //         response = JSON.parse(response.text);
-    //         let user = response.data.menber_list.map(item => matchUser(item))
-    //         res.send(user);
-    //     })
-
-    // }).catch(err => {
-    //     console.log(err);
-    // })
-    let topic = 
-       {
-           "node_id": 6378386,
-           "node_type": "event",
-           "title": "东南亚 越南-柬埔寨-泰国-缅甸-印度 深度穷游",
-           "created_at": "2018-04-11",
-           "gather_date": 1525708800,
-           "begin_date": "2018-05-08",
-           "end_date": "2019-06-23",
-           "days": 412,
-           "fee_type": "AA",
-           "event_status": "recruiting",
-           "event_state": "recruiting",
-           "member_limit": 4,
-           "member_num": 1,
-           "from": {
-               "city_id": 440100,
-               "name": "广州",
-               "slug": "guangzhou"
-           },
-           "to": [{
-                   "dest_id": 0,
-                   "dest_name": "越南",
-                   "dest_cat": "city",
-                   "node_slug": ""
-               },
-               {
-                   "dest_id": 0,
-                   "dest_name": "柬埔寨",
-                   "dest_cat": "city",
-                   "node_slug": ""
-               },
-               {
-                   "dest_id": 0,
-                   "dest_name": "泰国",
-                   "dest_cat": "city",
-                   "node_slug": ""
-               },
-               {
-                   "dest_id": 0,
-                   "dest_name": "缅甸",
-                   "dest_cat": "city",
-                   "node_slug": ""
-               },
-               {
-                   "dest_id": 0,
-                   "dest_name": "印度",
-                   "dest_cat": "city",
-                   "node_slug": ""
-               }
-           ],
-           "banner": {
-               "photo_path": "images/event/v2/no_pic2",
-               "photo_ext": "jpg"
-           },
-           "leader_user": {
-               "nick_name": "ZhongC",
-               "user_name": "ZhongCoi05",
-               "user_id": "cffc636344b99704d8bf57806bf9e7d8",
-               "internal_id": 3172858,
-               "avatar": "http://c1.zdb.io/files/faces/none_header.gif"
-           },
-           "tags": [{
-               "tag_name": "旅行",
-               "tag_id": 14
-           }],
-           "image": "http://c1.zdb.io/images/event/v2/no_pic2.jpg"
-       }
-    getMore(topic).then(
-        response => {res.send(response)}
-    )
-
-
-
+    let url = "http://www.doyouhike.net/event/yueban/get_more_comment";
+    let data = {
+        nodeId: 6378544,
+        userId: null,
+        page: 1,
+        commentId: 0,
+        page_size: 10,
+        order_type: 2
+    }
+    superagent.post(url).send(data).end( (err, response)=>{
+        res.send(response);
+    })
 })
 
 function getMore(topic) {
-    return new Promise(resolve => {
+    return new Promise((resolve,reject) => {
         let url_d = `http://www.doyouhike.net/event/yueban/detail/${topic.node_id}`;
         let url_m = `http://www.doyouhike.net/event/yueban/get_event_members?nodeId=${topic.node_id}&userId=&page_num=1&page_limit=16`;
         let url_c = {
@@ -226,23 +122,24 @@ function getMore(topic) {
         // task.push(superagent.post(url._c)); // comment
         superagent.get(url_d) // 请求详细的内容
             .end((err, response) => {
-                let $ = cheerio.load(response.text, {
-                    decodeEntities: false
-                });
+                let $ ;
+                if(response){
+                     $ = cheerio.load(response.text, {
+                        decodeEntities: false
+                    });
+                }else { reject(url_d,"不能爬取") }
+               
+                console.log(c.sig(url_d) ,"爬取完毕");
                 //   console.log(res.text);
                 topic.dec = $(".event-ct").html(); // 详细内容
                 topic.love = $("#like_num").html() * 1; // 点赞
                 topic.comments = $(".cmtNum").html() * 1; // 评论
-                superagent.get(url_m).end( (err,response2)=>{
-                    debugger ;
-                    response2 = JSON.parse(response2.text).data;
-                    topic.member = response2.menber_list.map( item => {
-                        array_u.indexOf(item.user) > -1 ? "" : array_u.push(matchUser(item.user));                        
-                        return matchMenber(item) ;
-                    }) ;
-                    resolve(matchTopic(topic));
-
+                let start = Math.floor(Math.random() * (array_u.length - 3)) ;
+                let end = Math.floor( Math.random() * 3 ) + start ;
+                topic.member = array_u.slice(start, end).map(item=>{
+                    return matchMenber(item);
                 })
+                resolve(topic)
             })
         // })
         // Promise.all(task).then(response => {
@@ -276,8 +173,8 @@ function matchUser(data) {
         user_head: data.avatar, // 头像
         user_touch: "该用户暂时没有留下任何联系方式",
         user_signatrue: "这个用户很懒，什么都没留下", //用户签名
-        user_love_topic: [ //用户喜爱的活动类型
-            "all"
+        user_love_type: [ //用户喜爱的活动类型
+            
         ]
     }
 }
@@ -286,7 +183,10 @@ function matchTopic(data) {
     return {
         tid: data.node_id, // 这是一个主题id  -
         topic_title: data.title, //活动标题 -
-        // topic_dec: data.dec, //活动内容, x
+
+        // topic_dec:"默认内容",
+        topic_dec: data.dec, //活动内容, x
+
         topic_type: [...data.tags], //活动类型，判断这是哪种类型的活动 -
         topic_from: { //活动发起人，
             uid: data.leader_user.internal_id, // 用户ID -
@@ -304,20 +204,24 @@ function matchTopic(data) {
         },
         topic_num: data.member_limit, // 活动预计参加人数 -
         topic_menber: [ // 活动参加成员 x
-            // ...data.member
+            ...data.member
         ],
         topic_money: data.free_type, //活动预算
-        // topic_love: data.love, //被点赞数 x
+        
+        topic_love: data.love, //被点赞数 x
+        // topic_love: 0,
+
         topic_collected: 0, //被收藏数 x
-        // topic_comments: data.comments, //被评论数 x
+        topic_comments: data.comments, //被评论数 x
+        // topic_comments: 0
     }
 }
 function matchMenber(data) {
     return {
-        uid: data.user.internal_id, // 用户ID
-        user_name: data.user.user_name, // 用户名
-        user_head: data.user.avatar, // 用户头像
-        join_date: data.join_date, // 参见活动的时间
+        uid: data.uid, // 用户ID
+        user_name: data.user_name, // 用户名
+        user_head: data.avatar, // 用户头像
+        join_date: moment().format("YYYY-MM-DD HH:mm:ss"), // 参见活动的时间
     }
 }
 
@@ -400,6 +304,7 @@ function writeFile(name, newData, type, callback) { // json
             throw new Error(c.error("写入操作失败:") + err);
         };
         console.log(c.success('写入完成'));
+        callback();
     });
 }
 
