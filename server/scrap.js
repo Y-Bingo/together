@@ -1,9 +1,6 @@
-// import { write } from "fs/promises";
-
-// require('./colorConfig');// 引入彩色输出配置
-
 const express = require("express");
 const superagent = require("superagent");
+const request = require('request');
 const cheerio = require("cheerio");
 const promise = require("bluebird");
 const moment = require('moment');
@@ -53,15 +50,19 @@ Router.get("/detail", (req, res) => {
         readFs.push(readFile(i, "json"));
     }
     Promise.all(readFs).then(result => {
-        let task = [] ;
+        let task = [];
 
         let array_t = [].concat.apply([], result);
         array_t = array_t.map(topic => {
-            if( JSON.stringify(array_u).indexOf(JSON.stringify(topic.leader_user)) <= -1 ) {array_u.push(matchUser(topic.leader_user)) };
-            if( JSON.stringify(array_T).indexOf(JSON.stringify(topic.tags[0])) <= -1 ) { array_T.push(...topic.tags) };
+            if (JSON.stringify(array_u).indexOf(JSON.stringify(topic.leader_user)) <= -1) {
+                array_u.push(matchUser(topic.leader_user))
+            };
+            if (JSON.stringify(array_T).indexOf(JSON.stringify(topic.tags[0])) <= -1) {
+                array_T.push(...topic.tags)
+            };
             task.push(getMore(topic));
             // return matchTopic(topic);
-            return topic ;
+            return topic;
         })
         // writeFile('topicD',array_t,'json',()=>{
         //     writeFile("tags",array_T,'json',()=>{
@@ -69,20 +70,20 @@ Router.get("/detail", (req, res) => {
         //     })
         // })
         // res.send(array_t);
-        Promise.all(task).then( result2 => {
+        Promise.all(task).then(result2 => {
             let idArray = [];
-            let topic = [].concat.apply([],result2).map(item=>{
+            let topic = [].concat.apply([], result2).map(item => {
                 idArray.push(item.node_id);
-                return matchTopic(item) ;
+                return matchTopic(item);
 
             })
-            writeFile("All",topic, "json",()=>{
-                writeFile("ID", idArray, "json",()=>{
+            writeFile("All", topic, "json", () => {
+                writeFile("ID", idArray, "json", () => {
                     res.send(topic);
-                });     
+                });
             });
-                   
-        }).catch( err => {
+
+        }).catch(err => {
             console.log(err);
         })
         // Promise.all()
@@ -99,13 +100,47 @@ Router.get("/comment", (req, res) => {
         page_size: 10,
         order_type: 2
     }
-    superagent.post(url).send(data).end( (err, response)=>{
-        res.send(response);
+    let task = [];
+    // getComment(url,data).then(r =>{
+    //     res.send(r);
+    // })
+    readFile("ID", "json").then(array_id => {
+        array_id.forEach(item => {
+            data.nodeId = item;
+            task.push(getComment(url, data))
+        })
+        Promise.all(task).then(result => {
+            //    result = [].concat.apply([],result);
+            res.send(result);
+        })
+
     })
 })
 
+function getComment(url, data) {
+    setTimeout(() => {
+        return new Promise(res => {
+            request.post({
+                url: url,
+                form: data
+            }, (err, response) => {
+                console.log(c.warn("爬取"), url, c.success("完毕"));
+                let body = JSON.parse(response.body);
+                let comment = body.data.data;
+                comment = comment.map(item => {
+                    item.tid = data.nodeId
+
+                    return matchComment(item);
+                })
+                res(comment);
+            })
+        })
+    }, 1000);
+}
+
 function getMore(topic) {
-    return new Promise((resolve,reject) => {
+
+    return new Promise((resolve, reject) => {
         let url_d = `http://www.doyouhike.net/event/yueban/detail/${topic.node_id}`;
         let url_m = `http://www.doyouhike.net/event/yueban/get_event_members?nodeId=${topic.node_id}&userId=&page_num=1&page_limit=16`;
         let url_c = {
@@ -122,21 +157,23 @@ function getMore(topic) {
         // task.push(superagent.post(url._c)); // comment
         superagent.get(url_d) // 请求详细的内容
             .end((err, response) => {
-                let $ ;
-                if(response){
-                     $ = cheerio.load(response.text, {
+                let $;
+                if (response) {
+                    $ = cheerio.load(response.text, {
                         decodeEntities: false
                     });
-                }else { reject(url_d,"不能爬取") }
-               
-                console.log(c.sig(url_d) ,"爬取完毕");
+                } else {
+                    reject(url_d, "不能爬取")
+                }
+
+                console.log(c.sig(url_d), "爬取完毕");
                 //   console.log(res.text);
                 topic.dec = $(".event-ct").html(); // 详细内容
                 topic.love = $("#like_num").html() * 1; // 点赞
                 topic.comments = $(".cmtNum").html() * 1; // 评论
-                let start = Math.floor(Math.random() * (array_u.length - 3)) ;
-                let end = Math.floor( Math.random() * 3 ) + start ;
-                topic.member = array_u.slice(start, end).map(item=>{
+                let start = Math.floor(Math.random() * (array_u.length - 3));
+                let end = Math.floor(Math.random() * 3) + start;
+                topic.member = array_u.slice(start, end).map(item => {
                     return matchMenber(item);
                 })
                 resolve(topic)
@@ -158,7 +195,25 @@ function matchMyData(data) {
 }
 
 function matchComment(data) {
-
+    let content = data.content.reduce((pre, cur, index) => {
+        return pre + '<br/>' + cur.content
+    }, "");
+    let photo_domain_path = "http://c1.zdb.io/";
+    return {
+        com_id: data.comment_id, // 评论ID
+        com_topic: data.tid, // 主题id
+        com_dec: content, //评论的主要内容
+        com_from: {
+            user_name: data.user.user_name, // 评论人的名字
+            user_head: photo_domain_path + data.user.avatar, // 评论人头像
+            uid: data.user.user_id // 评论人的id
+        }, //评论来之谁,
+        rep_to: {
+            user_name: data.reply_to.user_name, // 收到评论人的名字
+            uid: data.reply_to.user_id // 收到评论人的id
+        },
+        com_time: moment(data.created_at).format("YYYY-MM-DD HH:mm:ss"), //评论时间
+    }
 }
 
 function matchUser(data) {
@@ -174,7 +229,7 @@ function matchUser(data) {
         user_touch: "该用户暂时没有留下任何联系方式",
         user_signatrue: "这个用户很懒，什么都没留下", //用户签名
         user_love_type: [ //用户喜爱的活动类型
-            
+
         ]
     }
 }
@@ -207,7 +262,7 @@ function matchTopic(data) {
             ...data.member
         ],
         topic_money: data.free_type, //活动预算
-        
+
         topic_love: data.love, //被点赞数 x
         // topic_love: 0,
 
@@ -216,6 +271,7 @@ function matchTopic(data) {
         // topic_comments: 0
     }
 }
+
 function matchMenber(data) {
     return {
         uid: data.uid, // 用户ID

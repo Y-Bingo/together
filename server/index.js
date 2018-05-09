@@ -7,6 +7,9 @@ const c = require("./colorConfig");
 const app = express();
  
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
 app.use('/scrap',require('./scrap'));// 使用爬虫
 app.use('/user', require('./user'));//使用有关/user的请求

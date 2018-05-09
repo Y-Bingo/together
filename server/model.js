@@ -77,25 +77,31 @@ const model = {
         com_dec :  {type:String,require:true},//评论的主要内容
         com_from : {
             user_name : String , // 评论人的名字
+            user_head: String ,// 评论人头像
             uid : Number // 评论人的id
         },//评论来之谁,
-        com_time : {type:Date,default:Date.now},//评论时间
-    },
-    // 回复
-    reply: {
-        rep_id: Number,// 评论ID
-        com_id: Number ,// 评论id
-        rep_dec: String,//回复的内容
-        rep_from: {
-            user_name: String, // 评论人的名字
-            uid: Number // 评论人的id
-        },//评论来之谁
         rep_to: {
             user_name: String, // 收到评论人的名字
-            uid: Number // 收到评论人的id
+            user_head: String ,// 评论人头像
+            uid: {type:Number,default:NaN} // 收到评论人的id
         },
-        rep_time: { type: Date, default: Date.now },// 回复的时间
+        com_time : {type:Date,default:Date.now},//评论时间
     },
+    // // 回复
+    // reply: {
+    //     rep_id: Number,// 评论ID
+    //     com_id: Number ,// 评论id
+    //     rep_dec: String,//回复的内容
+    //     rep_from: {
+    //         user_name: String, // 评论人的名字
+    //         uid: Number // 评论人的id
+    //     },//评论来之谁
+    //     rep_to: {
+    //         user_name: String, // 收到评论人的名字
+    //         uid: Number // 收到评论人的id
+    //     },
+    //     rep_time: { type: Date, default: Date.now },// 回复的时间
+    // },
     // 关注
     care : {  // 用户关注
         care_id : {type: Number, require:true}, // 关注ID
@@ -108,18 +114,13 @@ const model = {
             user_name : String ,//用户名
             user_head : String // 用户头像
         }
-    },
+    }, 
     // 收藏
     collect : { // 收藏 
         collect_id : {type:Number, require:true}, // ID 
-        user : { //
-            uid : String , // 收藏用户的ID
-            user_name: String //收藏用户的名字
-        },
-        topic :{
-            tid: {type: Number, require:true},  // 被收藏的主题ID
-            topic_title: String , // 收藏的标题
-        }
+        uid: Number , // 用户id
+        tid: Number ,// 文章id
+        collect_time:Date,
     },
     // 推荐
     recommend :{ // 推荐给用户的主题
