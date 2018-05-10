@@ -28,14 +28,16 @@ Router.post('/register',function(req,res){
     
     User.findOne({user_name},function(err,doc){
         if(doc){
-             return res.json({code: 1,msg:"用户名已存在！"})
-        }
-        new User({ user_name, user_pwd:md5(user_pwd) }).save(filter,function(err,doc){
+             return res.json({code: 0,msg:"用户名已存在！"})
+        } 
+        let user = { user_name, user_pwd:md5(user_pwd) } ;
+        user.uid = Math.floor(Math.random() * 10000000) ;
+        new User(user).save(filter,function(err,doc){
              if (err) {
-                return   res.json({ code: 1, msg: "注册失败" });
+                return   res.json({ code: 0, msg: "注册失败" });
             } else {
                 res.cookie("user_id", doc._id);
-                return res.json({ code: 0, data: doc, msg: "注册成功" });
+                return res.json({ code: 1, data: doc, msg: "注册成功" });
             }
         });
     })
@@ -44,7 +46,7 @@ Router.post('/register',function(req,res){
 Router.post('/login',function(req,res){
     console.log("server","login");
     const {user_name,user_pwd} = req.body;
-    User.findOne({user_ame,user_pwd:md5(user_pwd)},filter,function(err,doc){
+    User.findOne({user_name,user_pwd:md5(user_pwd)},filter,function(err,doc){
         if(err){
             return res.json({code:1,msg:"系统出错！"})
         }else if(doc){
@@ -56,15 +58,15 @@ Router.post('/login',function(req,res){
         }
     })
 })
-// 用户更新数据
+// 用户更新数据 ！！！待定
 Router.post('/update',function(req,res){
     console.log("server", "update");
-    const {user_id} = req.cookies;
+    const {uid} = req.cookies;
     const body = req.body;
-    if(!user_id){
+    if(!uid){
         return res.json({code:1});
     }
-    User.findByIdAndUpdate(user_id,body,function(err,doc){
+    User.findByIdAndUpdate(uid,body,function(err,doc){
         if(err){
             console.log(err);
             return res.json({ code: 1, msg: "保存失败！" })
@@ -78,15 +80,15 @@ Router.post('/update',function(req,res){
         }
     })
 })
-// 用户信息
+// 用户信息 待定没测试
 Router.get('/info',function(req,res){
     console.log("server", "user-info");
     // console.json(req);
-    const {user_id} = req.cookies ; // 重cookies提取用户ID
-    if(!user_id){
+    const {uid} = req.cookies ; // 重cookies提取用户ID
+    if(!uid){
         return res.json({code:1});
     }else{
-        User.findOne({_id:user_id},filter,function(err,doc){
+        User.findOne({uid},filter,function(err,doc){
             if(err){
                 return res.json({ code: 1 ,msg:err});                
             }else{

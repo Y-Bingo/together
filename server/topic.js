@@ -12,20 +12,34 @@ var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 
 // 路由主api测试,需要传入page
-Router.get('/list', (req, res ) => {
+Router.get('/list/:page', (req, res ) => {
     let {page} = req.params ;
+    let {uid} = req.cookies ; // 重cookies提取用户ID
     let limit = 10 ;
-    Topic.find({}).skip((page-1) * limit).limit(limit).sort({"topic_create_time":-1})
-        .exec((err, doc) => {
-            if (err) {
-                res.json({ code: 0, msg: "找不到当前的主题详情" });
-            } else {
-                res.json({ code: 1, data: doc });
-            }
+    let user_collect = [];
+    Collect.find({uid},(err,doc)=>{
+        if(err){
+            console.log("错误");
+        }else{
+            user_collect = doc.map((itme)=>(item.tid)); // 取出用户收藏的模块
+            Topic.find({}).skip((page-1) * limit).limit(limit).sort({"topic_create_time":-1})
+                    .exec((err, doc) => {
+                    if (err) {
+                        res.json({ code: 0, msg: "找不到当前的主题详情" });
+                    } else {
+                        let data = doc.map(item=>{
+                            item.is_collected = user_collect.some(item2=> item2 == item.tid)
+                            item.is_join = item.topic_menber.some(item2=> item2.uid == uid) ;
+                            return item ;
+                        })
 
-        })
+                        res.json({ code: 1, data: data });
+                    }
+                })
+        }
+    })
 })
-
+// 发布
 Router.post('/publish', (req, res) => {
     let topic = req.body ;
     topic.topic_create_time = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -49,7 +63,7 @@ Router.post('/publish', (req, res) => {
         }
     });
 })
-
+// 搜索
 Router.get('/search/:key', (req,res)=>{
     let {key} = req.params ;
     let _filter = {
@@ -69,9 +83,24 @@ Router.get('/search/:key', (req,res)=>{
     })
 
 })
-
-
-// Router.get() 
+// 进入详情页
+Router.get('/des/:tid', (req, res, err) => {
+    var tid = req.params.tid
+    Topic.find({
+        tid
+    }, (err, doc) => {
+        if (doc) {
+            return res.json({
+                code: 1,
+                data: doc
+            });
+        }
+        return res.json({
+            code: 0,
+            msg: "找不到当前的主题详情"
+        });
+    });
+});
 
 
 // 编辑 post
@@ -79,47 +108,39 @@ Router.post("/edit/:tid", (req, res) => {
     const { } = req.body; // 提取请求的元素
 }); 
 
-// 进入详情页
-Router.get('/des/:tid' , (req,res, err) => {
-    var tid = req.params.tid
-    Topic.find ({ tid }, (err, doc) => {
-        if (doc) {
-            return res.json({ code: 1, data: doc });
-        }
-        return res.json({ code: 0, msg: "找不到当前的主题详情" });
-    });
-}); 
+
 //参加该活动
 Router.post('/join/:tid',(req,res, err)=>{
     console.log('请求加入活动')
     let {tid} = req.params ;
-    let {join} = req.body ; // 
-    let user = {uid,user_name,user_head} = req.body ;
-    Topic.findOne({tid},(err, doc)=>{
-        let topic = doc ;
-        if(join==="true"){
-            user.join_date = moment().format("YYYY-MM-DD HH:mm:ss");
-            topic.topic_menber.push(user);
-            Topic.update({tid:topic.tid},{$set:{topic_menber:topic.topic_menber}},(err)=>{
-                if(err){
+    let {is_join} = req.body ; // 
+    let user = {uid,user_name,user_head} = req.cookies ;
+    if(is_join === "false"){
+        user.join_date = moment().format("YYYY-MM-DD HH:mm:ss");
+        Topic.update({tid},{$push:{topic_menber:user}},(err,doc)=>{
+            if (err) {
+                return res.json(falseRep("操作失败"));
+            }else{
+                return res.json(SuccessRep(doc,'加入成功')) ;
+            }
+        })
+    }else{
+       Topic.findOne({tid},(err, doc)=>{
+            let topic = doc ;
+            let topic_menber = topic.topic_menber.filter( item =>{
+                return user.uid != item.uid 
+            });
+            Topic.update({ tid: topic.tid }, { $set: { topic_menber: topic_menber } }, (err) => {
+                if (err) {
                     return res.json(falseRep("操作失败"));
-                }else{
-                    return res.json(SuccessRep(null,'加入成功')) ;
+                } else {
+                    return res.json(SuccessRep(null, '退出成功'));
                 }
             })
-        }else{
-             let topic_menber = topic.topic_menber.filter( item =>{
-                 return user.uid != item.uid 
-             });
-             Topic.update({ tid: topic.tid }, { $set: { topic_menber: topic_menber } }, (err) => {
-                 if (err) {
-                     return res.json(falseRep("操作失败"));
-                 } else {
-                     return res.json(SuccessRep(null, '退出成功'));
-                 }
-             })
-        }
-    })
+        
+        })
+    }
+    // 
     
 })
 
@@ -127,7 +148,7 @@ Router.post('/join/:tid',(req,res, err)=>{
 Router.get("/del/:tid", (req, res, err) => {
       
 });
-
+// 点赞
 Router.get("/good/:tid",(req,res,err)=>{
     let {tid} = req.params ;
     Topic.findOne({tid},(err,doc)=>{
@@ -142,7 +163,7 @@ Router.get("/good/:tid",(req,res,err)=>{
         })
     })
 })
-
+// 收藏
 Router.get("/collect",(req,res,err) =>{
     let { tid, uid, is_collected} = req.query ;
     let collect =  {tid,uid}
@@ -170,8 +191,10 @@ Router.get("/collect",(req,res,err) =>{
    
 })
 
-// Router.get()
 
+
+// Router.get()
+// 成功返回的请求
 function SuccessRep(data,msg="")  {
     return {
         code : 1 ,
@@ -179,7 +202,7 @@ function SuccessRep(data,msg="")  {
         msg :msg
     }
 }
-
+// 失败返回的请求
 function falseRep(msg="") {
     return {
         code : 0 ,

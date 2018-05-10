@@ -61,6 +61,9 @@ const model = {
         topic_love :     {type:Number,default:0},//被点赞数
         topic_collected :{type:Number,default:0},//被收藏数
         topic_comments : {type:Number,default:0},//被评论数
+        is_collected : Boolean ,// 是否收藏了
+        is_join: Boolean , // 是否参加了
+        is_good: Boolean  // 是否点赞了
     },
     // 活动类型
     topic_type :{ 
@@ -108,6 +111,7 @@ const model = {
         care_from : {
             uid : Number,// 用户ID
             user_name: String,// 用户名 
+            user_head: String // 用户头像
         }, //关注发起人
         care_to: { //被关注的人
             uid : Number,
