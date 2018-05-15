@@ -9,6 +9,9 @@ import {
     Card, 
     Popover // 气泡
 } from 'antd-mobile';
+import cookie from 'js-cookie';
+import {checkHasCookies} from '../../action/user.action'
+
 const myImg = src => <img src={require(`./img/${src}.png`)} className="am-icon am-icon-lg" alt={""} />;
 const Title = (props) => {
     // 没有用户名的和签名则，当用户没有登录
@@ -65,15 +68,26 @@ class UserIndex extends Component {
     }
     componentWillReceiveProps(newProps){
         // console.log(newProps);
+        this.setState({
+            user: this.props.user
+        })
     }
     componentDidMount(){
-        this.setState({
-            user : this.props.user
-        })
+        if(this.props.user.user_name == "未登录"){
+             let user = cookie.getJSON();
+             if (user.uid) {
+                 this.props.checkHasCookies(user);
+             }
+        }else{
+            console.log(this.props.user);
+            this.setState({
+                user: this.props.user
+            })
+        }
     }
     clickToEdit = () =>{
         // 如果用户没有登录，则跳转到登录页面
-        if(this.state.user.uid){
+        if(this.state.user.uid && this.state.user.user_name !="未登录"){
             this.props.history.push("/user/edit");
         }else{
             this.props.history.push('./log');
@@ -81,13 +95,13 @@ class UserIndex extends Component {
         // 如果用户登录的，则跳转到编辑页面
     }
     handleClick = (type) => {
-        this.props.history.push(`/user/${type}/${this.state.user.uid}`);
+        this.props.history.push(`/user/${type}`);
     }
     
     render() {
         let user = this.state.user;
-        // const /
-        let user_head = user.user_head ? user.user_head : "head-default";
+        // // const /
+        let user_head = user.user_head ? user.user_head : "http://localhost:3000/localImg/noLogin.png";
         return (
             <div>
                 <NavBar
@@ -99,7 +113,7 @@ class UserIndex extends Component {
                     <Card onClick={this.clickToEdit}>
                         <Card.Header
                             title={<Title {...user}/>}
-                            thumb={<img src={require(`./img/${user_head}.png`)} style={{width:"5.5rem",height:"5.5rem",verticalAlign:"top"}}  alt="user_head_photo"/>}
+                            thumb={<img src={user.user_head} style={{width:"5.5rem",height:"5.5rem",verticalAlign:"top"}}  alt="user_head_photo"/>}
                         />
                         {/* </Card.Header> */}
                     </Card>
@@ -152,7 +166,7 @@ class UserIndex extends Component {
     }
 }
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {checkHasCookies};
 const mapStateToProps = (state) => (
     {
         user: state.user

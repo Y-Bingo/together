@@ -8,11 +8,11 @@ const model = {
         uid: {"type":Number,require:true} ,//  这是一个用户ID
         user_name : {"type":String, require:true},//用户名
         user_pwd : {"type":String, require:true},//用户密码
-        user_creat_time : {"type":Date, default:Date.now}, // 创建时间
+        creat_time : Date, // 创建时间
         user_age : {type:Number, default:0},//年龄
-        user_sex : {type:String, enum:["boy","girl"]},//性别
+        user_sex : {type:String, enum:["boy","girl"],defalult:"boy"},//性别
         user_city : {type:String, default:"广东工业大学"},//所在城市
-        user_head : {type :String, default:'boy'}, // 头像
+        user_head : {type :String, default:"http://localhost:3000/localImg/head-default.png"}, // 头像
         user_touch : String,
         user_signatrue : {type:String, default:"这个用户很懒，什么都没留下"},//用户签名
         user_love_type : [//用户喜爱的活动类型
@@ -63,7 +63,8 @@ const model = {
         topic_comments : {type:Number,default:0},//被评论数
         is_collected : Boolean ,// 是否收藏了
         is_join: Boolean , // 是否参加了
-        is_good: Boolean  // 是否点赞了
+        is_good: Boolean , // 是否点赞了
+        is_care : Boolean // 是否关注了活动发布者
     },
     // 活动类型
     topic_type :{ 
@@ -73,10 +74,11 @@ const model = {
     // 评论
     comment : {
         com_id : Number ,// 评论ID
-        com_topic: {// 是在哪个活动中评论的
-            tid: Number , // 活动ID
-            topic_title: String // 活动标题
-        },
+        // com_topic: {// 是在哪个活动中评论的
+        //     tid: Number , // 活动ID
+        //     topic_title: String // 活动标题
+        // },
+        tid:Number , // 评论ID x
         com_dec :  {type:String,require:true},//评论的主要内容
         com_from : {
             user_name : String , // 评论人的名字
@@ -86,7 +88,7 @@ const model = {
         rep_to: {
             user_name: String, // 收到评论人的名字
             user_head: String ,// 评论人头像
-            uid: {type:Number,default:NaN} // 收到评论人的id
+            uid: {type:Number} // 收到评论人的id
         },
         com_time : {type:Date,default:Date.now},//评论时间
     },
@@ -117,13 +119,19 @@ const model = {
             uid : Number,
             user_name : String ,//用户名
             user_head : String // 用户头像
-        }
+        },
+        is_care: {type: Boolean, default : true },// 
+        care_time: Date //  开始关注的时间  + 
     }, 
     // 收藏
     collect : { // 收藏 
         collect_id : {type:Number, require:true}, // ID 
         uid: Number , // 用户id
-        tid: Number ,// 文章id
+        tid: Number ,// 主题ID 
+        topic: {
+             type: mongoose.Schema.Types.ObjectId,
+             ref: 'topic'
+        } ,// 文章id
         collect_time:Date,
     },
     // 推荐

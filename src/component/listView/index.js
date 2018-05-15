@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import {
     PullToRefresh,
     ListView,
-    Button,
+    ActivityIndicator,
+    Flex,
+    // Button,
     WhiteSpace
 } from "antd-mobile"
 import DataCard from '../card';
@@ -12,8 +14,8 @@ import './listView.css';
 import { loading,  } from '../../action/app.action';
 import { loadTopic } from "../../action/topic.action";
 
-let pageIndex = 0 ;
-const  NUM_ROWS = 2; //当前每次渲染条目 
+let pageIndex = 1 ;
+const  NUM_ROWS = 10; //当前每次渲染条目 
 class List extends Component {
     constructor(props) { 
         super(props);
@@ -22,15 +24,14 @@ class List extends Component {
         });
         // 没渲染的个数应该是后台第一次请求回来后的数据的一半
         this.state = {
-            
-           
             dataSource,
-            isLoading: this.props.is_loading, // 是否在更新中
+            isLoading: false, // 是否在更新中
             height: document.documentElement.clientHeight, //设置高度
             hasMore:true ,
             useBodyScroll: false, // 不适用body
             refreshing: false, // 显示刷新状态
             topic_data : [] ,// 数据,
+            next_data: []
         };
     }
     genData(pIndex= 0){
@@ -43,30 +44,33 @@ class List extends Component {
         return dataArr;
     }
     componentWillReceiveProps(nextProps){
-        if (nextProps.topic_data !== this.state.topic_data) {
-            console.log("是否要传入的数据不一样了？",nextProps.topic_data !== this.state.topic_data);
-            this.setState({
-                // 这里是要读取插进来的topic_data,来判断是否要更新
-                dataSource: this.state.dataSource.cloneWithRows(nextProps.topic_data),
-                index: this.props.topic_data.length ,
-                topic_data: [ ...nextProps.topic_data]
-
-            });
+            if (nextProps.next_data !== this.state.next_data) {
+                // console.log("是否要传入的数据不一样了？", nextProps.next_data !== this.state.next_data);
+                setTimeout(() => {
+                    this.rData = [...this.rData, ...this.genData(pageIndex)];
+                    // console.log("this.rData", this.rData);
+                    this.setState({
+                        dataSource: this.state.dataSource.cloneWithRows(this.rData),
+                        isLoading: false,
+                        topic_data: this.props.topic_data,
+                        next_data: this.props.next_data
+                    });
+                }, 2000);
         }
     }
     componentDidMount() {
         const height = this.state.height - ReactDOM.findDOMNode(this.lv).offsetTop;
-        
+        this.props.loadTopic(pageIndex);
         setTimeout(() => {
             this.rData = this.genData();
             let NUM_ROWS = this.props.topic_data.length;
             this.setState({ 
                 NUM_ROWS: NUM_ROWS,
-
                 dataSource: this.state.dataSource.cloneWithRows(this.genData()),
                 height: height,
                 isLoading: false,
-                // topic_data:this.props.topic_data ,
+                topic_data:this.props.topic_data ,
+                next_data: this.props.next_data
                 // index: this.props.topic_data.length 
             });
             console.log("componentDinMount",this.state);
@@ -100,19 +104,11 @@ class List extends Component {
         console.log('reach end', event);
         this.setState({isLoading:true});
         // 获取更多的数据
-        this.props.loadTopic();
-        setTimeout(() => {
-            
-            this.rData = [...this.rData, ...this.genData(++pageIndex)];
-            console.log("this.rData",this.rData);
-            this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(this.rData),
-                isLoading : false
-            }); 
-        }, 1000);
+        this.props.loadTopic(++pageIndex);
+       
     };
     render = () => {
-        let topic_data = this.state.topic_data || [];
+        let topic_data = this.state.next_data || [];
         // 列表项之间的空隙
         const separator = (sectionID, rowID) => (
             < WhiteSpace key = {
@@ -157,9 +153,20 @@ class List extends Component {
                         // 渲染的头部
                         renderHeader={() => <p></p>}
                         // 渲染的脚步
-                        renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-                            {this.state.isLoading ? 'Loading...' : 'Loaded'}
-                        </div>)}
+                        renderFooter={() => (
+                            <Flex>
+                                <Flex.Item></Flex.Item>
+                                <Flex.Item>< ActivityIndicator text = "Loading..." animating = { true } style={{}} /></Flex.Item>
+                                <Flex.Item></Flex.Item>
+                            </Flex>
+                             )
+                            // <div style={{ padding: 30, textAlign: 'center' }}>
+                            //     {/* { this.state.isLoading 
+                            //         ? ( ) 
+                            //         : 'Loaded'}  */}
+                                   
+                            // </div>)
+                        }
                         // 渲染的每个子项
                         renderRow={row}
                         // 渲染的间隔
@@ -176,9 +183,9 @@ class List extends Component {
                         />}
                         scrollEventThrottle={30}
                         onEndReached={this.onEndReached}
-                        onEndReachedThreshold={20}
+                        onEndReachedThreshold={80}
                         // 每次事件循环渲染的行数
-                        pageSize={5}                   
+                        pageSize={10}                   
                     />
             </div>
            
@@ -187,7 +194,7 @@ class List extends Component {
     }
 }
 const mapStateToProps = (state) => ({
-    // topic : state.topic
+    topic : state.topic_data 
 })
 const mapDispatchToProps = {loading, loadTopic};
 // const mapStateToProps = (state) =>{

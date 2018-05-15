@@ -1,7 +1,8 @@
 const express = require('express');
 const utility = require('utility');
-const Router = express.Router();
+const moment = require('moment');
 
+const Router = express.Router();
 const model = require('./model');
 const User = model.getModel('user');//建立user模型
 
@@ -24,20 +25,21 @@ Router.get('/list',function(req,res){
 Router.post('/register',function(req,res){
     console.log("server", "register");
     const {user_name, user_pwd} = req.body;
-    
-    
+
     User.findOne({user_name},function(err,doc){
         if(doc){
              return res.json({code: 0,msg:"用户名已存在！"})
         } 
-        let user = { user_name, user_pwd:md5(user_pwd) } ;
+        let user = { user_name, user_pwd: user_pwd } ;
         user.uid = Math.floor(Math.random() * 10000000) ;
+        user.create_time = moment().format("YYYY-MM-DD HH:mm:ss");
         new User(user).save(filter,function(err,doc){
              if (err) {
-                return   res.json({ code: 0, msg: "注册失败" });
+                return res.json(falseRep("注册失败"))
             } else {
-                res.cookie("user_id", doc._id);
-                return res.json({ code: 1, data: doc, msg: "注册成功" });
+                setCookie(res,doc);
+                return res.json(SuccessRep(doc, "注册成功"));
+               
             }
         });
     })
@@ -46,15 +48,15 @@ Router.post('/register',function(req,res){
 Router.post('/login',function(req,res){
     console.log("server","login");
     const {user_name,user_pwd} = req.body;
-    User.findOne({user_name,user_pwd:md5(user_pwd)},filter,function(err,doc){
+    User.findOne({user_name,user_pwd: user_pwd},filter,function(err,doc){
         if(err){
             return res.json({code:1,msg:"系统出错！"})
         }else if(doc){
             // 返回一个cookies
-            res.cookie("user_id",doc._id);
-            return res.json({code:0,data:doc,msg:"登录成功"});
+            setCookie(res,doc)
+            return res.json(SuccessRep(doc,"登录成功"));
         }else{
-            return res.json({code:1,msg:"用户名不存在或者密码错误！"})
+            return res.json(falseRep("用户名不存在或者密码错误"))
         }
     })
 })
@@ -66,17 +68,14 @@ Router.post('/update',function(req,res){
     if(!uid){
         return res.json({code:1});
     }
-    User.findByIdAndUpdate(uid,body,function(err,doc){
+    User.update({uid},body,function(err){
         if(err){
             console.log(err);
-            return res.json({ code: 1, msg: "保存失败！" })
+            return res.json({ code: 0, msg: "保存失败！" })
         } else {
             // 返回一个cookies
-            const data = Object.assign({},{
-                user : doc.user,
-                type : doc.type
-            },body);
-            return res.json({ code: 0, data: data, msg: "保存成功" });
+            setCookie(res, body)
+            return res.json({ code: 1, data: body, msg: "保存成功" });
         }
     })
 })
@@ -108,7 +107,30 @@ module.exports = Router;
 //     const {...filter, ...pureData } = data;
 //     return pureData; 
 // }
-
+function SuccessRep(data, msg = "") {
+    return {
+        code: 1,
+        data: data,
+        msg: msg
+    }
+}
+// 失败返回的请求
+function falseRep(msg = "") {
+    return {
+        code: 0,
+        msg: msg
+    }
+}
+function setCookie(res,doc){
+    res.cookie("uid", doc.uid);
+    res.cookie("user_name",doc.user_name);
+    res.cookie("create_time", doc.create_time);
+    res.cookie("user_age", doc.user_age);
+    res.cookie("user_sex", doc.user_sex);
+    res.cookie("user_head", doc.user_head);
+    res.cookie("user_city", doc.user_head);
+    res.cookie("user_signature", doc.user_signatrue);
+}
 function md5(C){
     // 通过加盐来时md5明文更加复杂，阻止被暴力破解
     const salt = "YB_STUDY_REACT"

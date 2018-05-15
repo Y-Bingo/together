@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Provider } from "react-redux";
+import { Provider,connect } from "react-redux";
 import { Route, Switch, BrowserRouter} from 'react-router-dom';
- 
+import cookie from 'js-cookie'; 
 import store from './store';
 // import "./http.config";// 引入http请求监听器
 // 应用
@@ -21,6 +21,8 @@ import TopicDes from './page/topic.des/topic.des' ; /* 主题详情页 */
 import CommentPage from './page/com';
 //test
 import Card from './component/card';
+
+import {checkHasCookies} from './action/user.action';//
 class App extends Component {
   render() {
     return (
@@ -39,12 +41,12 @@ class App extends Component {
                 <Route path="/comment/:tid" component={ CommentPage } /> {/* 评论页 需要tid*/ }
                 <Route path="/user" component={ UserIndex }  exact/> {/*用户主页*/}
                 <Route path="/user/edit" component={ UserInfoEdit } /> {/*用户信息编辑*/}
-                <Route path="/user/collect/:uid" component={ CommonList } /> {/*用户收藏页*/}
-                <Route path="/user/care/:uid" component={ CommonList } /> {/*用户关注页*/}
-                <Route path="/user/publish/:uid" component={ CommonList } /> {/*用户推送*/}
+                <Route path="/user/collect" component={ CommonList } /> {/*用户收藏页*/}
+                <Route path="/user/care" component={ CommonList } /> {/*用户关注页*/}
+                <Route path="/user/publish" component={ CommonList } /> {/*用户推送*/}
                 <Route path="/user/help" component={ CommonList } /> {/*帮助*/}
-                <Route path="/user/msg/:uid" component= { CommonList} /> {/*我的消息*/}
-                <Route path="/user/join/:uid" component={CommonList} />{/*我要参加的活动*/}
+                <Route path="/user/msg" component= { CommonList} /> {/*我的消息*/}
+                <Route path="/user/join" component={CommonList} />{/*我要参加的活动*/}
                 <Route path="/test" component={ Card } /> {/*测试*/}
               </Switch>
             </div>
@@ -55,4 +57,8 @@ class App extends Component {
   }
 }
 
+const mapDispatchToProps = {
+    checkHasCookies
+}
 export default App;
+// export default connect(null, mapDispatchToProps)(App)

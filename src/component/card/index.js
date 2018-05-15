@@ -25,37 +25,41 @@ class DataCard extends Component{
     // 点赞
     _good = (e) => {
         console.log("good");
-        this.props.good(!this.state.is_good);
+        this.props.good(this.state.tid);
         this.setState({
-            is_good : !this.state.is_good,
-            topic_love: this.state.topic_love + (this.state.is_good ? -1 : 1)
+            // is_good : !this.state.is_good,
+            topic_love : this.state.topic_love ++ 
         });
     }
     // 收藏
     _collect = (e) => {
         console.log("collect");
-        this.props.collect(!this.state.is_collect);
+        this.props.collect(this.state.tid);
         this.setState({
-            is_collect: !this.state.is_collect,
-            topic_collected: this.state.topic_collected + ( this.state.is_collectd ? 1 : -1)
+            is_collected: !this.state.is_collected,
         })
     } 
     // 评论
     _comment = () => {
         this.props.history.push(`/comment/${this.state.tid}`);
     }
+    
    render = ()=>{
-
+        let {topic_from, topic_photo} = this.state ;
+        topic_photo = topic_photo instanceof Array ? topic_photo[0] : topic_photo ;
+        console.log(topic_photo)
         return (
             <div>
                 <Card >
                     <Card.Header
-                        title={this.state.topic_title}
-                        thumb={<Thumb />}
+                        title={topic_from.user_name}
+                        thumb={<Thumb head = {topic_from.user_head}/>}
                         extra={<Extra handleClick={() => { console.log("关注了") }} />}
                     />
                     <Card.Body onClick={this._dec}>
-                        <div className="card-img"></div>
+                        <div className="card-img">
+                            <img src={topic_photo}/>
+                        </div>
                         <div className="card-body-content">
                             <h1>{this.state.topic_title}</h1>
                             <p>{this.state.topic_dec}</p>

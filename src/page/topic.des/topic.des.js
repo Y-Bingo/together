@@ -170,11 +170,7 @@ const mapStateToProps =  (state) => (
     }
 )
 
-const mapDispatchToProps = () => (
-    {
-        good, collect, join ,intoDec
-    }
-)
+const mapDispatchToProps = { good, collect, join ,intoDec }
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopicDes)

@@ -14,31 +14,31 @@ class CommonList extends Component{
         super(props);
         // const params = this.props.match.params;
         this.state = {
-            uid : "",
-            title : "",
-            type : "",
-            dataUrl : "",
-            renderItem: UserCard,
-            data: []
+            title : "", // 页面title
+            type : "", // 列表类型
+            dataUrl : "", // 请求的数据地址
+            renderItem: UserCard, // 列表渲染的组件
+            data: [] // 数据
         }
     }
     getTitle(title){
         // 根据不同的页面选择要渲染的的列表项
         switch (title) {
             case "care":
+                 this.setState({renderItem:UserCard, url: `/user_care/list`},)
                 return "我关注的人";
             case "publish":
-                this.setState({renderItem:topicCard})
+                 this.setState({renderItem:topicCard, url: `/topic/publish`},)
                 return "我发布过的活动";
             case "collect":
-                this.setState({renderItem:topicCard})
+                this.setState({renderItem:topicCard , url: `/topic/collect`})
                 return "我的收藏的活动";
             case "msg":
                 return "我的消息";   
             case "help":
                 return "帮助";
             case "join" :
-                this.setState({renderItem:topicCard})
+                this.setState({renderItem:topicCard, url: `/topic/join`})
                 return "我参加的活动" ;
             default:
                 return "404"
@@ -49,32 +49,33 @@ class CommonList extends Component{
         const urlArr = url.split("/");
         this.setState({
             title:this.getTitle(urlArr[2]),
-            uid:urlArr[3],
-            type: urlArr[2],
-            url: `http://localhost:3000/data/user_info_${urlArr[2]}.json`
+            type: urlArr[2], 
         })
     }
     componentDidMount(){
         this.props.getData(this.state.url,this.state.type);
     }   
     render(){
-        console.log("listData" ,this.props.commonList);
         const navbarTitle = this.props.history;
         // 在文章渲染处添加点击事件，使其进入文章详情列表
         let RenderItem = this.state.renderItem ;
         return (
             <div>
                 <NavBar
+                    className = "my-tab-bar"
                     mode="light"
                     leftContent={<Icon type="left" />}
                     onLeftClick={()=>{this.props.history.goBack()}}
                 >{this.state.title}</NavBar>
                 <WhiteSpace size="sm"/>
-                <List>
+                <List style={{marginTop:"45px"}}>
                 {
-                    this.props.commonList.map((item, index) => 
+                    this.props.listData.data.map((item, index) => 
                         (       
-                            <RenderItem key={index} {...item} history={this.props.history}/>
+                            <div key={index}>
+                                <WhiteSpace size="sm"/>
+                                <RenderItem  {...item} history={this.props.history}/>
+                            </div>
                         )
                     )
                 }
@@ -85,7 +86,7 @@ class CommonList extends Component{
 } 
 const mapDispatchToProps = {getData} ;
 const mapStateToProps = (state) => ({
-    commonList: state.user_info.commonListData 
+    listData: state.user_info
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommonList)

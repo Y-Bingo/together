@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
+import cookie from 'js-cookie';
 import {
     NavBar,
     Icon,
@@ -14,13 +15,18 @@ class UserInfoEdit extends Component {
     constructor(props){
         super(props);
         this.state = {
-            user_head_photo: "./user_index/img/head-boy.png",
+            user_head_photo: "head-boy",
             user_name : "设置昵称" ,
             user_sex : "设置性别",
             user_city : "设置城市" ,
             user_signatrue : "设置自己签名"
         }
     }
+    componentDidMount() {
+        console.log("user_info_edit",this.props.user);
+        this.setState({...this.props.user});
+    }
+    
     save = () => {
         this.props.user_info_edit(this.state);
     }
@@ -56,7 +62,7 @@ class UserInfoEdit extends Component {
                 <WhiteSpace size="sm"/>
                 <List>
                     <List.Item
-                        extra={<img src={require("./user_index/img/head-boy.png")} style={{ width: "5rem", height: "5rem", verticalAlign: "top"}}/>}
+                        extra={<img src={this.state.user_head} style={{ width: "5rem", height: "5rem", verticalAlign: "top"}}/>}
                         onClick={() => this.handleClick("user_head_photo")}>
                     <List.Item.Brief>头像</List.Item.Brief></List.Item>
                 </List>
@@ -95,7 +101,7 @@ class UserInfoEdit extends Component {
 const mapDispatchToProps = {user_info_edit}
 const mapStateToProps = (state) => (
     {
-        ...state.user
+        user: state.user
     }
 )
 export default connect(mapStateToProps, mapDispatchToProps)(UserInfoEdit)

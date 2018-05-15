@@ -44,12 +44,10 @@ const initState = {
     user_name : "bingo",
 };
 
-const des = (state =  initState , action ) => {
+export default function  des(state =  initState , action ) {
     const { type, ...orthers } = action;
     switch ( type ) {
         default:
             return state
     }
 }
-
-export default des ;

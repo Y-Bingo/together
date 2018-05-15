@@ -24,6 +24,13 @@ class Login extends Component {
     componentDidMount() {
         // this.props.login();
     }
+    componentWillReceiveProps(nextProps) {
+        console.log("register", nextProps);
+        if (nextProps.uid && nextProps.user_name !== "未登录") {
+            console.log("regitster", 'push /index');
+            this.props.history.push("/index"); // 跳转到登录后的页面
+        }
+    }
     showMsg(text){
         if(text){
             Toast.info(text, 1.5, () => {

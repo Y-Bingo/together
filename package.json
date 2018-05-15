@@ -9,6 +9,7 @@
     "browser-cookies": "^1.2.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
+    "js-cookie": "^2.2.0",
     "mongoose": "^4.13.9",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",

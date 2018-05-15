@@ -35,6 +35,13 @@ class Register extends Component {
             Toast.info('请输入正确的邮箱地址！');
         }
     }
+    componentWillReceiveProps(nextProps){
+        console.log("register",nextProps);
+        if(nextProps.uid && nextProps.user_name !=="未登录"){
+            console.log("regitster" , 'push /index');
+            this.props.history.push("/index");// 跳转到登录后的页面
+        }
+    }
     onChange = (key, value) => {
         if(key==='user_name'){
 //  邮箱验证正则 
@@ -69,7 +76,7 @@ class Register extends Component {
                     <List>
                         <InputItem
                             className="input-border"
-                            type="text"
+                            type="password"
                             placeholder="输入你的密码"
                             onChange={(v) => this.onChange("user_pwd" ,v)}
                             value={this.state.user_pwd}>密码</InputItem>
@@ -78,7 +85,7 @@ class Register extends Component {
                     <List>
                         <InputItem
                             className="input-border"
-                            type="text"
+                            type="password"
                             placeholder="确认密码"
                             onChange={(v) => this.onChange("user_repwd" ,v)}
                             value={this.state.user_repwd}>确认密码</InputItem>

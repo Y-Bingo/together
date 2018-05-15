@@ -1,8 +1,10 @@
 import React from 'react';
-const Thumb = () => {
+const Thumb = (props) => {
+    let {head} = props ;
+    console.log(head);
     return (
         <div className="header-photo">
-            <img src={require('./img/header.png')} alt="header" />
+            <img src={head} alt="header" />
         </div>
     )
 }

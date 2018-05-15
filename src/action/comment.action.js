@@ -5,6 +5,30 @@ export const WATCH = "WATCH" ; // 观看评论 ,, 跳转评论页
 export const MORE = "MORE" ;// 查看更多的评论
 export const GETCOMMENT = "GETCOMMENT" ;// 获取评论数据
 
+const initState = {
+    commentList:[]
+};
+
+
+export default function comment(state = initState, action) {
+    const {type,...orthers} = action;
+    switch (type) {
+        case PUBLISH: //直接在这里添加一条信息
+            return {...state,...orthers};
+        case DELETE:
+            return {...state,...orthers};
+        case REPLY : {
+            return {...state,...orthers};
+        }
+        case WATCH : {
+            console.log("观看评论");
+            return {state, ...orthers}
+        }
+        default:
+            return state;
+    }
+}
+
 // 发布评论
 export function publishComment(publishDATA) {
     console.log("发布评论", publishDATA);
